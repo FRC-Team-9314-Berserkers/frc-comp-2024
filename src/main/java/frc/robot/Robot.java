@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.simulation.XboxControllerSim;
 import edu.wpi.first.wpilibj.XboxController;
 
 /**
@@ -39,8 +40,10 @@ public class Robot extends TimedRobot {
   //Drive Motor Groups
   private final MotorControllerGroup m_leftMotors = new MotorControllerGroup(m_leftMotor1, m_leftMotor2);
   private final MotorControllerGroup m_rightMotors = new MotorControllerGroup(m_rightMotor1, m_rightMotor2);
-
+  Driver driver = new Driver();
   DifferentialDrive m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
+
+  XboxController xbox1 = new XboxController(0);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -62,7 +65,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    m_drive.tankDrive(1.0, 1.0);
+    
   }
 
   /**
@@ -118,7 +121,10 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+    //m_drive.tankDrive(1.0, 1.0);
+    driver.setDrive((float) xbox1.getLeftY(), (float) xbox1.getRightY());
+  }
 
   /** This function is called once when the robot is first started up. */
   @Override
