@@ -5,20 +5,13 @@
 package frc.robot;
 
 
-import java.math.*;
-
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-
-import edu.wpi.first.math.controller.DifferentialDriveFeedforward;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.simulation.XboxControllerSim;
-import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.systems.Controller;
+import frc.robot.systems.Driver;
+import frc.robot.systems.Shooter;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -32,28 +25,23 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-  //Drive Motor Controllers
-  private final CANSparkMax m_leftMotor1 = new CANSparkMax(6, MotorType.kBrushed);
-  private final CANSparkMax m_rightMotor1 = new CANSparkMax(4, MotorType.kBrushed);
-  private final CANSparkMax m_leftMotor2 = new CANSparkMax(7, MotorType.kBrushed);
-  private final CANSparkMax m_rightMotor2 = new CANSparkMax(5, MotorType.kBrushed);
-  //Drive Motor Groups
-  private final MotorControllerGroup m_leftMotors = new MotorControllerGroup(m_leftMotor1, m_leftMotor2);
-  private final MotorControllerGroup m_rightMotors = new MotorControllerGroup(m_rightMotor1, m_rightMotor2);
-  Driver driver = new Driver();
-  DifferentialDrive m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
+  //Drive Motor Controllers now in Driver system
 
-  XboxController xbox1 = new XboxController(0);
+  //Systems
+  public static Driver driver;
+  public static Shooter shooter;
+  public static Controller controller;
 
-  /**
-   * This function is run when the robot is first started up and should be used for any
-   * initialization code.
-   */
+  //Controllers now part of Controller system
+
+
   @Override
   public void robotInit() {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+
+    //Setup Systems
   }
 
   /**
@@ -82,7 +70,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
-    System.out.println("Auto selected: " + m_autoSelected);
+    Util.log("Auto selected: " + m_autoSelected);
   }
 
   /** This function is called periodically during autonomous. */
@@ -123,7 +111,7 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
     //m_drive.tankDrive(1.0, 1.0);
-    driver.setDrive((float) xbox1.getLeftY(), (float) xbox1.getRightY());
+    //driver.setDrive((float) xbox1.getLeftY(), (float) xbox1.getRightY());
   }
 
   /** This function is called once when the robot is first started up. */

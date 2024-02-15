@@ -1,13 +1,13 @@
-package frc.robot;
+package frc.robot.systems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
 
-public class Driver {
+public class Driver extends System{
     float maxSpeed;
+    float speedFalloff;
 
     //Drive Motors
     private final CANSparkMax motorLeft1 = new CANSparkMax(6, MotorType.kBrushed);
@@ -22,6 +22,7 @@ public class Driver {
   
     Driver() {
         maxSpeed = 1;
+        speedFalloff = 1;
         rightMotors.setInverted(true);
         
     }
@@ -39,12 +40,22 @@ public class Driver {
         
     }
 
+    
     /** Set both motor controller groups*/
-    void setDrive (float left, float right) {
-        leftMotors.set(left*maxSpeed);
-        rightMotors.set(right*maxSpeed);
+    public void setDrive (float left, float right) {
+        setLeftDrive(left);
+        setRightDrive(left);
     }
 
+    public boolean setLeftDrive (float speed) {
+        leftMotors.set(speed*maxSpeed);
+        return true;
+    }
+
+    public boolean setRightDrive (float speed) {
+        leftMotors.set(speed*maxSpeed);
+        return true;
+    }
 
     
 }

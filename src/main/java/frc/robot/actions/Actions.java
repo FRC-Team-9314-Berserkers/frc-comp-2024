@@ -1,5 +1,10 @@
-package frc.robot;
+package frc.robot.actions;
 
-class Actions {
-    ButtonAction Shoot = new ButtonAction(() -> Shooter.shoot(););
+import frc.robot.Robot;
+
+public class Actions {
+    public static ButtonAction shoot = new ButtonAction(() -> {return Robot.shooter.shoot();});
+
+    //What is wrong with this?
+    public static AnalogAction setLeftDriveSpeed = new AnalogAction((float x) -> {return Robot.driver.setLeftDrive(x);});
 }
