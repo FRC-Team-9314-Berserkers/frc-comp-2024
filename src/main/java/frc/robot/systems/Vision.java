@@ -1,5 +1,5 @@
 package frc.robot.systems;
 
-class Vision extends System {
+public class Vision extends System {
 
 }
