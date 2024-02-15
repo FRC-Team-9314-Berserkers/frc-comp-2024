@@ -42,6 +42,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
 
     //Setup Systems
+    driver = new Driver();
+    shooter = new Shooter();
+    controller = new Controller();
   }
 
   /**
@@ -93,7 +96,11 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    driver.update();
+    shooter.update();
+    controller.update();
+  }
 
   /** This function is called once when the robot is disabled. */
   @Override

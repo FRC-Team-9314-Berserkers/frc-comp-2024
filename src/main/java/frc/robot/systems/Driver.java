@@ -20,7 +20,7 @@ public class Driver extends System{
     private final MotorControllerGroup rightMotors = new MotorControllerGroup(motorRight1, motorRight2);
 
   
-    Driver() {
+    public Driver() {
         maxSpeed = 1;
         speedFalloff = 1;
         rightMotors.setInverted(true);

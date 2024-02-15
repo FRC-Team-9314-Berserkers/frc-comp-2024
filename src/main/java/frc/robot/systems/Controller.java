@@ -47,11 +47,28 @@ public class Controller extends System {
     HashMap<Button, ButtonAction> buttonMap;
     HashMap<Analog, AnalogAction> analogMap;
 
-    Controller() {
+    public Controller() {
         xbox1 = new XboxController(0);
         joy1 = new Joystick(1);
+
+        bind(Button.A, Actions.shoot);
+
     }
     
+    public void update() {
+        if (xbox1.getAButtonPressed())
+            buttonMap.get(Button.A).press();
+        
+        xbox1.getBButtonPressed();
+            buttonMap.get(Button.B).press();
+
+        xbox1.getXButtonPressed();
+            buttonMap.get(Button.X).press();
+
+        xbox1.getYButtonPressed();
+            buttonMap.get(Button.Y).press();
+
+    }
     boolean bind(Button b, ButtonAction a) {
         if (! buttonMap.containsKey(b)) {
             buttonMap.put(b, a);
@@ -72,16 +89,20 @@ public class Controller extends System {
     boolean load (String file){
         String data;
 
+        data = "";
+
         Filesystem.getDeployDirectory();
 
         ObjectMapper jsonMapper = new ObjectMapper();
+
         try {
             jsonMapper.readTree(data);
         } catch (JsonProcessingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        bind(Button.A, Actions.shoot);
+
+       
 
         return true; //Add Variable For Sucsses Here
     }

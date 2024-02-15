@@ -3,10 +3,10 @@ package frc.robot.actions;
 import java.util.function.*;
 
 public class AnalogAction {
-    Predicate<Float> set;
-    Predicate<Float> change;
+    Function<Float, Boolean> set;
+    Function<Float, Boolean> change;
 
-    AnalogAction(Predicate<Float> _set) {
+    AnalogAction(Function<Float, Boolean> _set) {
         set = _set;
     }
 }
