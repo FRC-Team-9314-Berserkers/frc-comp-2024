@@ -26,7 +26,7 @@ public class Driver {
         
     }
 
-    /** Drive f rward/backward at a percent of max speed*/
+    /** Drive forward/backward at a percent of max speed*/
     void straight(float speed) {
         float spd = speed*maxSpeed;
         leftMotors.set(spd);
