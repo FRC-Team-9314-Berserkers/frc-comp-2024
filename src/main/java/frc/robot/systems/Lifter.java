@@ -1,5 +1,5 @@
 package frc.robot.systems;
 
-class Lifter extends System {
+public class Lifter extends System {
 
 }
