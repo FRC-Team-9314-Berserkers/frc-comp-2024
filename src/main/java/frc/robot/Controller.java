@@ -1,8 +1,8 @@
 package frc.robot;
 
-public class Controler extends System {
+public class Controller extends System {
     boolean load (String file){
-
+        
         return true; //Add Variable For Sucsses Here
     }
-    }
+}
