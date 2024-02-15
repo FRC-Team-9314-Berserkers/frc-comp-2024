@@ -48,6 +48,9 @@ public class Controller extends System {
     HashMap<Analog, AnalogAction> analogMap;
 
     public Controller() {
+        buttonMap = new HashMap<Button, ButtonAction>();
+        analogMap = new HashMap<Analog, AnalogAction>();
+
         xbox1 = new XboxController(0);
         joy1 = new Joystick(1);
 
@@ -57,6 +60,7 @@ public class Controller extends System {
     
     public void update() {
         if (xbox1.getAButtonPressed())
+            if (buttonMap.get(Button.A) != null)
             buttonMap.get(Button.A).press();
         
         xbox1.getBButtonPressed();
@@ -69,6 +73,7 @@ public class Controller extends System {
             buttonMap.get(Button.Y).press();
 
     }
+
     boolean bind(Button b, ButtonAction a) {
         if (! buttonMap.containsKey(b)) {
             buttonMap.put(b, a);
