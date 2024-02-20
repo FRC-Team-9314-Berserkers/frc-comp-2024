@@ -59,9 +59,11 @@ public class Controller extends System {
     }
     
     public void update() {
+        if (xbox1.button(XboxController.Button.kA, null) == 1);
+
         if (xbox1.getAButtonPressed())
             if (buttonMap.get(Button.A) != null)
-            buttonMap.get(Button.A).press();
+                buttonMap.get(Button.A).press();
         
         xbox1.getBButtonPressed();
             buttonMap.get(Button.B).press();
@@ -111,6 +113,9 @@ public class Controller extends System {
 
         return true; //Add Variable For Sucsses Here
     }
+
+    //Test a if a button is pressed and run corrosponding action
+
 
 
 }
