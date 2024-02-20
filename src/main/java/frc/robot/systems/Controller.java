@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.Filesystem;
-
+import frc.robot.Util;
 import frc.robot.actions.*;
 
 public class Controller extends System {
@@ -59,13 +59,19 @@ public class Controller extends System {
     }
     
     public void update() {
-        if (xbox1.button(XboxController.Button.kA, null) == 1);
+       
 
-        if (xbox1.getAButtonPressed())
-            if (buttonMap.get(Button.A) != null)
-                buttonMap.get(Button.A).press();
-        
-        xbox1.getBButtonPressed();
+        if (xbox1.getAButtonPressed()) {
+            if (buttonMap.get(Button.A) != null) {
+                if (buttonMap.get(Button.A).press()) {
+                    Util.log("Shooter.shoot returned true");
+                }
+            } else {
+                Util.log("ERROR: No Button Action! (for a)");
+            }
+        }
+            
+        /*xbox1.getBButtonPressed();
             buttonMap.get(Button.B).press();
 
         xbox1.getXButtonPressed();
@@ -73,6 +79,7 @@ public class Controller extends System {
 
         xbox1.getYButtonPressed();
             buttonMap.get(Button.Y).press();
+            */
 
     }
 
