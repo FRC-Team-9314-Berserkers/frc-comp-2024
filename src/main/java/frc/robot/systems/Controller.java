@@ -15,19 +15,25 @@ public class Controller extends System {
 
     /** Enumerations for all buttons */
     enum Button {
-        A,
-        B,
-        X,
-        Y,
-        BACK,
-        START,
-        HOME,
-        LB,
-        RB,
-        UP,
+        A (1),
+        B(2),
+        X(3),
+        Y(4),
+        BACK(7),
+        START(8),
+        //HOME(),
+        LB(5),
+        RB(6);
+        /*UP,
         DOWN,
         LEFT,
-        RIGHT
+        RIGHT*/
+
+        public final int value;
+
+        Button(int value) {
+            this.value = value;
+        }
     }
     enum Analog {
         LeftTrigger,
@@ -59,6 +65,7 @@ public class Controller extends System {
     }
     
     public void update() {
+<<<<<<< Updated upstream
        
 
         if (xbox1.getAButtonPressed()) {
@@ -80,6 +87,13 @@ public class Controller extends System {
         xbox1.getYButtonPressed();
             buttonMap.get(Button.Y).press();
             */
+=======
+        for (Button b : Button.values()) {
+            checkButton(b);
+        }
+
+        
+>>>>>>> Stashed changes
 
     }
 
@@ -122,7 +136,17 @@ public class Controller extends System {
     }
 
     //Test a if a button is pressed and run corrosponding action
-
+    protected boolean checkButton(Button b) {
+        
+        if (buttonMap.get(b) == null)
+            return false;
+        
+        if (xbox1.getRawButtonPressed(b.value)) {
+            Util.log(b.toString() + b.value);
+            return buttonMap.get(b).press();
+        }
+        return false;
+    }
 
 
 }
