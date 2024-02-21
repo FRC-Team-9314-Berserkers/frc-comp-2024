@@ -9,6 +9,8 @@ public class Driver extends System{
     float maxSpeed;
     float speedFalloff;
 
+    float vl, vr;
+
     //Drive Motors
     private final CANSparkMax motorLeft1 = new CANSparkMax(4, MotorType.kBrushed);
     private final CANSparkMax motorRight1 = new CANSparkMax(6, MotorType.kBrushed);
@@ -21,12 +23,20 @@ public class Driver extends System{
 
   
     public Driver() {
-        maxSpeed = 0.4f;
-        speedFalloff = 1;
+        maxSpeed = 0.5f;
+        speedFalloff = 0.995f;
         rightMotors.setInverted(true);
         
+        vl = 0;
+        vr = 0;
     }
 
+    public void update() {
+        leftMotors.set(vr);
+        rightMotors.set(vr);
+        vl *= speedFalloff;
+        vr *= speedFalloff;
+    }
     /** Drive forward/backward at a percent of max speed*/
     void straight(float speed) {
         float spd = speed*maxSpeed;
@@ -48,12 +58,21 @@ public class Driver extends System{
     }
 
     public boolean setLeftDrive (float speed) {
-        leftMotors.set(speed*maxSpeed);
+        //leftMotors.set(speed*maxSpeed);
+        speed = speed*maxSpeed;
+        if (speed > vl || speed < vl) {
+            vl = speed;
+        }
         return true;
     }
 
     public boolean setRightDrive (float speed) {
-        rightMotors.set(speed*maxSpeed);
+        //rightMotors.set(speed*maxSpeed);
+        speed = speed*maxSpeed;
+        if (speed > vr || speed < vr) {
+            vr = speed;
+        }
+        
         return true;
     }
 
