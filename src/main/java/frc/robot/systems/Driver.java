@@ -32,7 +32,7 @@ public class Driver extends System{
     }
 
     public void update() {
-        leftMotors.set(vr);
+        leftMotors.set(vl);
         rightMotors.set(vr);
         vl *= speedFalloff;
         vr *= speedFalloff;
