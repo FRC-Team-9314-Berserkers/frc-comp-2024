@@ -15,15 +15,24 @@ public class Controller extends System {
 
     /** Enumerations for all buttons */
     enum Button {
-        A (1),
-        B(2),
-        X(3),
+        A (2),
+        B(3),
+        X(1),
         Y(4),
-        BACK(7),
-        START(8),
+        LT(7),
+        RT(8),
         //HOME(),
         LB(5),
-        RB(6);
+        RB(6),
+        BACK(9),
+        START(10),
+        LS(11),
+        RS(12);
+        //fake1(13),
+        //fake2(14),
+        //fake3(15),
+        //fake4(16);
+
         /*UP,
         DOWN,
         LEFT,
@@ -36,12 +45,18 @@ public class Controller extends System {
         }
     }
     enum Analog {
-        LeftTrigger,
-        RightTrigger,
-        LeftX,
-        LeftY,
-        RightX,
-        RightY
+        LeftTrigger(2),
+        RightTrigger(3),
+        LeftX(0),
+        LeftY(1),
+        RightX(4),
+        RightY(5);
+
+        public final int value;
+
+        Analog(int value) {
+            this.value = value;
+        }
     }
 
     //All Controllers
@@ -61,40 +76,18 @@ public class Controller extends System {
         joy1 = new Joystick(1);
 
         bind(Button.A, Actions.shoot);
+        bind(Analog.LeftY, Actions.setLeftDriveSpeed);
+        bind(Analog.RightY, Actions.setRightDriveSpeed);
 
     }
     
     public void update() {
-<<<<<<< Updated upstream
-       
-
-        if (xbox1.getAButtonPressed()) {
-            if (buttonMap.get(Button.A) != null) {
-                if (buttonMap.get(Button.A).press()) {
-                    Util.log("Shooter.shoot returned true");
-                }
-            } else {
-                Util.log("ERROR: No Button Action! (for a)");
-            }
-        }
-            
-        /*xbox1.getBButtonPressed();
-            buttonMap.get(Button.B).press();
-
-        xbox1.getXButtonPressed();
-            buttonMap.get(Button.X).press();
-
-        xbox1.getYButtonPressed();
-            buttonMap.get(Button.Y).press();
-            */
-=======
         for (Button b : Button.values()) {
             checkButton(b);
         }
-
-        
->>>>>>> Stashed changes
-
+        for (Analog a : Analog.values()) {
+            checkAnalog(a);
+        }
     }
 
     boolean bind(Button b, ButtonAction a) {
@@ -137,15 +130,30 @@ public class Controller extends System {
 
     //Test a if a button is pressed and run corrosponding action
     protected boolean checkButton(Button b) {
-        
-        if (buttonMap.get(b) == null)
-            return false;
-        
         if (xbox1.getRawButtonPressed(b.value)) {
             Util.log(b.toString() + b.value);
+            if (buttonMap.get(b) == null) {
+                return false;
+            }
             return buttonMap.get(b).press();
         }
         return false;
+    }
+
+    //Test a if a button is pressed and run corrosponding action
+    //But analog
+    protected boolean checkAnalog(Analog a) {
+        float value = (float) xbox1.getRawAxis(a.value);
+
+        //if (a == Analog.LeftY)
+        //    Util.log(a.toString() + a.value + ": " + value);
+
+        if (analogMap.get(a) != null) {
+            return analogMap.get(a).set(value);
+        }
+
+        return false;
+            
     }
 
 
