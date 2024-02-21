@@ -10,10 +10,10 @@ public class Driver extends System{
     float speedFalloff;
 
     //Drive Motors
-    private final CANSparkMax motorLeft1 = new CANSparkMax(6, MotorType.kBrushed);
-    private final CANSparkMax motorRight1 = new CANSparkMax(4, MotorType.kBrushed);
-    private final CANSparkMax motorLeft2 = new CANSparkMax(7, MotorType.kBrushed);
-    private final CANSparkMax motorRight2 = new CANSparkMax(5, MotorType.kBrushed);
+    private final CANSparkMax motorLeft1 = new CANSparkMax(4, MotorType.kBrushed);
+    private final CANSparkMax motorRight1 = new CANSparkMax(6, MotorType.kBrushed);
+    private final CANSparkMax motorLeft2 = new CANSparkMax(5, MotorType.kBrushed);
+    private final CANSparkMax motorRight2 = new CANSparkMax(7, MotorType.kBrushed);
 
     //Drive Motor Groups
     private final MotorControllerGroup leftMotors = new MotorControllerGroup(motorLeft1, motorLeft2);
@@ -21,9 +21,9 @@ public class Driver extends System{
 
   
     public Driver() {
-        maxSpeed = 1;
+        maxSpeed = 0.2f;
         speedFalloff = 1;
-        //rightMotors.setInverted(false);
+        rightMotors.setInverted(true);
         
     }
 

@@ -149,6 +149,9 @@ public class Controller extends System {
         //    Util.log(a.toString() + a.value + ": " + value);
 
         if (analogMap.get(a) != null) {
+            if (value > 0.1 || value < -0.1) {
+                Util.log(a.toString() + ": " + value);
+            }
             return analogMap.get(a).set(value);
         }
 
