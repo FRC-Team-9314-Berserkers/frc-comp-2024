@@ -21,7 +21,7 @@ public class Driver extends System{
 
   
     public Driver() {
-        maxSpeed = 0.2f;
+        maxSpeed = 0.4f;
         speedFalloff = 1;
         rightMotors.setInverted(true);
         
