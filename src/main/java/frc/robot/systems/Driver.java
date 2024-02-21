@@ -23,7 +23,7 @@ public class Driver extends System{
     public Driver() {
         maxSpeed = 1;
         speedFalloff = 1;
-        rightMotors.setInverted(true);
+        //rightMotors.setInverted(false);
         
     }
 
@@ -53,7 +53,7 @@ public class Driver extends System{
     }
 
     public boolean setRightDrive (float speed) {
-        leftMotors.set(speed*maxSpeed);
+        rightMotors.set(speed*maxSpeed);
         return true;
     }
 

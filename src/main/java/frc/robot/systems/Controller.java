@@ -45,12 +45,12 @@ public class Controller extends System {
         }
     }
     enum Analog {
-        LeftTrigger(2),
-        RightTrigger(3),
+        //LeftTrigger(2),
+        //RightTrigger(3),
         LeftX(0),
         LeftY(1),
-        RightX(4),
-        RightY(5);
+        RightX(2),
+        RightY(3);
 
         public final int value;
 
