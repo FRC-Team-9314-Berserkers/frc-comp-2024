@@ -15,19 +15,22 @@ public class Controller extends System {
 
     /** Enumerations for all buttons */
     enum Button {
-        A (2),
-        B(3),
-        X(1),
+        //Switch on back of controller needs to be X, not D
+        //Mode light off
+        A (1),
+        B(2),
+        X(3),
         Y(4),
-        LT(7),
-        RT(8),
+        //Unused
+        //LT(7),
+        //RT(8),
         //HOME(),
         LB(5),
         RB(6),
-        BACK(9),
-        START(10),
-        LS(11),
-        RS(12);
+        BACK(7),
+        START(8),
+        LS(9),
+        RS(10),
         //fake1(13),
         //fake2(14),
         //fake3(15),
@@ -37,7 +40,7 @@ public class Controller extends System {
         DOWN,
         LEFT,
         RIGHT*/
-
+        
         public final int value;
 
         Button(int value) {
@@ -45,12 +48,12 @@ public class Controller extends System {
         }
     }
     enum Analog {
-        //LeftTrigger(2),
-        //RightTrigger(3),
         LeftX(0),
         LeftY(1),
-        RightX(2),
-        RightY(3);
+        LeftTrigger(2),
+        RightTrigger(3),
+        RightX(4),
+        RightY(5);
 
         public final int value;
 
@@ -130,6 +133,13 @@ public class Controller extends System {
 
     //Test a if a button is pressed and run corrosponding action
     protected boolean checkButton(Button b) {
+        if (b.value >= 20 && b.value < 24) {
+            if (buttonMap.get(b) == null) {
+                return false;
+            }
+            //xbox1.getPOVButton() == b.value
+        }
+        
         if (xbox1.getRawButtonPressed(b.value)) {
             Util.log(b.toString() + b.value);
             if (buttonMap.get(b) == null) {

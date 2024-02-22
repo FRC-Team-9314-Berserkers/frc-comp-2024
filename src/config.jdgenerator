@@ -1,0 +1,29 @@
+==== CONFIGS ====		
+{
+    "base_path": "c:\\Users\\Gage\\Documents\\Projects\\frc-comp-2024\\src",
+    "out": "c:\\Users\\Gage\\Documents\\Projects\\frc-comp-2024\\src\\javadoc",
+    "javadoc_executable": "C:\\Program Files\\Java\\jdk-21\\bin\\javadoc.exe",
+    "exclude": [],
+    "raw_params": ""
+}
+
+==== COMMAND ====
+"C:\Program Files\Java\jdk-21\bin\javadoc.exe" 
+	-sourcepath "c:\Users\Gage\Documents\Projects\frc-comp-2024\src" 
+	-d "c:\Users\Gage\Documents\Projects\frc-comp-2024\src\javadoc" 
+	"c:\Users\Gage\Documents\Projects\frc-comp-2024\src\main\java\frc\robot\actions\Action.java"
+	"c:\Users\Gage\Documents\Projects\frc-comp-2024\src\main\java\frc\robot\actions\Actions.java"
+	"c:\Users\Gage\Documents\Projects\frc-comp-2024\src\main\java\frc\robot\actions\AnalogAction.java"
+	"c:\Users\Gage\Documents\Projects\frc-comp-2024\src\main\java\frc\robot\actions\ButtonAction.java"
+	"c:\Users\Gage\Documents\Projects\frc-comp-2024\src\main\java\frc\robot\Main.java"
+	"c:\Users\Gage\Documents\Projects\frc-comp-2024\src\main\java\frc\robot\Robot.java"
+	"c:\Users\Gage\Documents\Projects\frc-comp-2024\src\main\java\frc\robot\systems\Controller.java"
+	"c:\Users\Gage\Documents\Projects\frc-comp-2024\src\main\java\frc\robot\systems\Driver.java"
+	"c:\Users\Gage\Documents\Projects\frc-comp-2024\src\main\java\frc\robot\systems\Lifter.java"
+	"c:\Users\Gage\Documents\Projects\frc-comp-2024\src\main\java\frc\robot\systems\Loader.java"
+	"c:\Users\Gage\Documents\Projects\frc-comp-2024\src\main\java\frc\robot\systems\Shooter.java"
+	"c:\Users\Gage\Documents\Projects\frc-comp-2024\src\main\java\frc\robot\systems\System.java"
+	"c:\Users\Gage\Documents\Projects\frc-comp-2024\src\main\java\frc\robot\systems\Vision.java"
+	"c:\Users\Gage\Documents\Projects\frc-comp-2024\src\main\java\frc\robot\Util.java"
+
+
