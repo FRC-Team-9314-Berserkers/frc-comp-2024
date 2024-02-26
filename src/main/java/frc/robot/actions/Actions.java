@@ -8,5 +8,6 @@ public class Actions {
     public static AnalogAction setLeftDriveSpeed = new AnalogAction((Float x) -> {return Robot.driver.setLeftDrive(x);});
     public static AnalogAction setRightDriveSpeed = new AnalogAction((Float x) -> {return Robot.driver.setRightDrive(x);});
 
+    public static ButtonAction measure = new ButtonAction(() -> {return Robot.shooter.checkValue();});
 
 }

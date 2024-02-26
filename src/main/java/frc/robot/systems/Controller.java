@@ -36,10 +36,11 @@ public class Controller extends System {
         //fake3(15),
         //fake4(16);
 
-        /*UP,
-        DOWN,
-        LEFT,
-        RIGHT*/
+        UP(0+100),
+        RIGHT(90+100),
+        DOWN(180+100),
+        LEFT(270+100);
+        
         
         public final int value;
 
@@ -81,7 +82,7 @@ public class Controller extends System {
         bind(Button.A, Actions.shoot);
         bind(Analog.LeftY, Actions.setLeftDriveSpeed);
         bind(Analog.RightY, Actions.setRightDriveSpeed);
-
+        bind(Button.X, Actions.measure);
     }
     
     public void update() {
@@ -133,12 +134,12 @@ public class Controller extends System {
 
     //Test a if a button is pressed and run corrosponding action
     protected boolean checkButton(Button b) {
-        if (b.value >= 20 && b.value < 24) {
+        /*if (xbox1.getPOVButton() == b.value) {
             if (buttonMap.get(b) == null) {
                 return false;
             }
-            //xbox1.getPOVButton() == b.value
-        }
+            return buttonMap.get(b).press();
+        }*/
         
         if (xbox1.getRawButtonPressed(b.value)) {
             Util.log(b.toString() + b.value);
