@@ -11,6 +11,8 @@ public class Driver extends System{
 
     float vl, vr;
 
+    boolean disabled = false;
+
     //Drive Motors
     private final CANSparkMax motorLeft1 = new CANSparkMax(4, MotorType.kBrushed);
     private final CANSparkMax motorRight1 = new CANSparkMax(6, MotorType.kBrushed);
@@ -24,7 +26,7 @@ public class Driver extends System{
   
     public Driver() {
         maxSpeed = 0.5f;
-        speedFalloff = 0.995f;
+        speedFalloff = 1; //0.995f;
         rightMotors.setInverted(true);
         
         vl = 0;
@@ -32,6 +34,8 @@ public class Driver extends System{
     }
 
     public void update() {
+        if (disabled) return;
+
         leftMotors.set(vl);
         rightMotors.set(vr);
         vl *= speedFalloff;

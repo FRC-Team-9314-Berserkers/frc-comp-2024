@@ -36,10 +36,10 @@ public class Controller extends System {
         //fake3(15),
         //fake4(16);
 
-        UP(0+100),
-        RIGHT(90+100),
-        DOWN(180+100),
-        LEFT(270+100);
+        UP(0+1000),
+        RIGHT(90+1000),
+        DOWN(180+1000),
+        LEFT(270+1000);
         
         
         public final int value;
@@ -82,7 +82,7 @@ public class Controller extends System {
         bind(Button.A, Actions.shoot);
         bind(Analog.LeftY, Actions.setLeftDriveSpeed);
         bind(Analog.RightY, Actions.setRightDriveSpeed);
-        bind(Button.X, Actions.measure);
+        bind(Button.LEFT, Actions.measure);
     }
     
     public void update() {
@@ -134,15 +134,18 @@ public class Controller extends System {
 
     //Test a if a button is pressed and run corrosponding action
     protected boolean checkButton(Button b) {
-        /*if (xbox1.getPOVButton() == b.value) {
-            if (buttonMap.get(b) == null) {
-                return false;
+        if (b.value >= 1000 && b.value < 2000) {
+            if (xbox1.getPOV() == b.value-1000) {
+                if (buttonMap.get(b) == null) {
+                    return false;
+                }
+                return buttonMap.get(b).press();
             }
-            return buttonMap.get(b).press();
-        }*/
+            return false;
+        }
         
         if (xbox1.getRawButtonPressed(b.value)) {
-            Util.log(b.toString() + b.value);
+            //Util.log(b.toString() + b.value);
             if (buttonMap.get(b) == null) {
                 return false;
             }
@@ -155,13 +158,9 @@ public class Controller extends System {
     //But analog
     protected boolean checkAnalog(Analog a) {
         float value = (float) xbox1.getRawAxis(a.value);
-
-        //if (a == Analog.LeftY)
-        //    Util.log(a.toString() + a.value + ": " + value);
-
         if (analogMap.get(a) != null) {
             if (value > 0.1 || value < -0.1) {
-                Util.log(a.toString() + ": " + value);
+                //Util.log(a.toString() + ": " + value);
             }
             return analogMap.get(a).set(value);
         }

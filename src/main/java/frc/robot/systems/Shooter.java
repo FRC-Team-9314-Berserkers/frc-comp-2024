@@ -26,8 +26,8 @@ public class Shooter extends System {
         Util.log("Shooter: shooting note");
         //motor1.set(0.2);
         //motor2.set(0.2);
-       // motor3.set(0.2);
-       // motor4.set(0.2);
+        //motor3.set(0.2);
+        //motor4.set(0.2);
         //motor5.set(0.2);
         motor6.set(0.2);
 
@@ -35,7 +35,7 @@ public class Shooter extends System {
     }
 
     public boolean checkValue() {
-        Util.log(motor1.getAnalog().getPosition() + "");
+        Util.log(motor1.getAbsoluteEncoder().getPosition() + "");
         
         return true;
     }

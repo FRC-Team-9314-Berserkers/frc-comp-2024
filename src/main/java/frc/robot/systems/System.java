@@ -4,4 +4,8 @@ public class System {
     public void update() {
 
     }
+
+    public void test() {
+        
+    }
 }
