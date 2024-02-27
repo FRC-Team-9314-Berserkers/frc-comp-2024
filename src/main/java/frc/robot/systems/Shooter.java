@@ -24,18 +24,19 @@ public class Shooter extends System {
     public boolean shoot() {
         //Shoot code
         Util.log("Shooter: shooting note");
-        //motor1.set(0.4);
-        motor2.set(0.4);
-        motor3.set(0.4);
-        motor4.set(0.4);
-        motor5.set(0.4);
-        motor6.set(0.4);
+        //motor1.set(0.2);
+        //motor2.set(0.2);
+       // motor3.set(0.2);
+       // motor4.set(0.2);
+        //motor5.set(0.2);
+        motor6.set(0.2);
 
         return true;
     }
 
     public boolean checkValue() {
         Util.log(motor1.getAnalog().getPosition() + "");
+        
         return true;
     }
 
