@@ -108,9 +108,9 @@ public class Controller extends System {
         return false;
     }
 
-    /** load function work in progress. */
+    /** Load a json control map into the controller. */
     boolean load (String filename){
-
+        Util.log("Loading control map '" + filename + "'");
         String path = Filesystem.getDeployDirectory() + "/input-maps/" + filename;
         String data;
 
@@ -121,6 +121,7 @@ public class Controller extends System {
             data = Files.readString(Paths.get(path), Charset.defaultCharset());
             json = jsonMapper.readTree(data);
         } catch (JsonProcessingException e) {
+            Util.log("Control map is invalid.");
             e.printStackTrace();
             return false;
         } catch (IOException e) {
@@ -128,33 +129,62 @@ public class Controller extends System {
             return false;
         }
 
-        Util.log("Data from config file:");
-        Util.log(data);
+        //Util.log("Data from config file:");
+        //Util.log(data);
 
+
+        //Load Buttons from file and bind their actions
         JsonNode buttonMap = json.get("Buttons");
         for (JsonNode x : buttonMap) {
             Entry<String, JsonNode> pair = x.fields().next();
+
             String buttonName = pair.getKey();
             String actionName = pair.getValue().asText();
-            Util.log(buttonName + ": " + actionName);
+            Button button;
+            Action action;
 
-            Button button = Button.valueOf(buttonName);
-            Action action = Actions.valueOf(actionName).value;
-
-            Util.log("   -" + Actions.valueOf(actionName).name());
-
-            if (action instanceof ButtonAction) {
-                bind(button, (ButtonAction) action);
+            try {
+                button = Button.valueOf(buttonName);
+                action = Actions.valueOf(actionName).value;
+            } catch (IllegalArgumentException e) {
+                Util.log("Action name or Button name does not exist!");
+                Util.log("Button: " + buttonName + "Action: " + actionName);
+                Util.log(e.getMessage());
+                return false;
             }
 
-           
+            if (action instanceof ButtonAction) {
+                Util.log(buttonName + ": " + actionName);
+                bind(button, (ButtonAction) action);
+            }
         }
 
 
-        
-        
-       
+        //Load analogs from json file, bind them:
+        JsonNode analogMap = json.get("Analogs");
+        for (JsonNode x : analogMap) {
+            Entry<String, JsonNode> pair = x.fields().next();
 
+            String analogName = pair.getKey();
+            String actionName = pair.getValue().asText();
+            Analog analog;
+            Action action;
+
+            try {
+                analog = Analog.valueOf(analogName);
+                action = Actions.valueOf(actionName).value;
+            } catch (IllegalArgumentException e) {
+                Util.log("Action or Analog does not exist!");
+                Util.log("Analog: " + analogName + "Action: " + actionName);
+                Util.log(e.getMessage());
+                return false;
+            }
+
+            if (action instanceof AnalogAction) {
+                Util.log(analogName + ": " + actionName);
+                bind(analog, (AnalogAction) action);
+            }
+        }
         return true; //Add Variable For Sucsses Here
     }
 
