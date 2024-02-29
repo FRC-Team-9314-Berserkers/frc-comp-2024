@@ -1,0 +1,11 @@
+{
+    "Buttons": [
+        {"A": "shoot"},
+        {"Left": "measure"}
+    ],
+
+    "Analogs": [
+        {"LeftStickY": "setLeftDriveSpeed"},
+        {"RightStickY": "setRightDriveSpeed"}
+    ]
+}

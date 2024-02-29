@@ -11,7 +11,7 @@ public class Driver extends System{
 
     float vl, vr;
 
-    boolean disabled = false;
+    boolean disabled = true;
 
     //Drive Motors
     private final CANSparkMax motorLeft1 = new CANSparkMax(4, MotorType.kBrushed);

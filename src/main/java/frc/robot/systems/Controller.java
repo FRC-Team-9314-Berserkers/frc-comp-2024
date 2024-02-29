@@ -1,15 +1,23 @@
 package frc.robot.systems;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.*;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.Filesystem;
+
 import frc.robot.Util;
 import frc.robot.actions.*;
+
+
 
 public class Controller extends System {
 
@@ -17,29 +25,22 @@ public class Controller extends System {
     enum Button {
         //Switch on back of controller needs to be X, not D
         //Mode light off
-        A (1),
+        A(1),
         B(2),
         X(3),
         Y(4),
-        //Unused
-        //LT(7),
-        //RT(8),
-        //HOME(),
-        LB(5),
-        RB(6),
-        BACK(7),
-        START(8),
-        LS(9),
-        RS(10),
-        //fake1(13),
-        //fake2(14),
-        //fake3(15),
-        //fake4(16);
+        LeftBumper(5),
+        RightBumper(6),
+        Back(7),
+        Start(8),
+        LeftStick(9),
+        RightStick(10),
 
-        UP(0+1000),
-        RIGHT(90+1000),
-        DOWN(180+1000),
-        LEFT(270+1000);
+        //POV
+        Up(0+1000),
+        Right(90+1000),
+        Down(180+1000),
+        Left(270+1000);
         
         
         public final int value;
@@ -49,12 +50,12 @@ public class Controller extends System {
         }
     }
     enum Analog {
-        LeftX(0),
-        LeftY(1),
+        LeftStickX(0),
+        LeftStickY(1),
         LeftTrigger(2),
         RightTrigger(3),
-        RightX(4),
-        RightY(5);
+        RightStickX(4),
+        RightStickY(5);
 
         public final int value;
 
@@ -79,10 +80,7 @@ public class Controller extends System {
         xbox1 = new XboxController(0);
         joy1 = new Joystick(1);
 
-        bind(Button.A, Actions.shoot);
-        bind(Analog.LeftY, Actions.setLeftDriveSpeed);
-        bind(Analog.RightY, Actions.setRightDriveSpeed);
-        bind(Button.LEFT, Actions.measure);
+        load("default-config.json");
     }
     
     public void update() {
@@ -111,22 +109,50 @@ public class Controller extends System {
     }
 
     /** load function work in progress. */
-    boolean load (String file){
+    boolean load (String filename){
+
+        String path = Filesystem.getDeployDirectory() + "/input-maps/" + filename;
         String data;
 
-        data = "";
-
-        Filesystem.getDeployDirectory();
-
+        final JsonNode json;
         ObjectMapper jsonMapper = new ObjectMapper();
 
         try {
-            jsonMapper.readTree(data);
+            data = Files.readString(Paths.get(path), Charset.defaultCharset());
+            json = jsonMapper.readTree(data);
         } catch (JsonProcessingException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
+            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
 
+        Util.log("Data from config file:");
+        Util.log(data);
+
+        JsonNode buttonMap = json.get("Buttons");
+        for (JsonNode x : buttonMap) {
+            Entry<String, JsonNode> pair = x.fields().next();
+            String buttonName = pair.getKey();
+            String actionName = pair.getValue().asText();
+            Util.log(buttonName + ": " + actionName);
+
+            Button button = Button.valueOf(buttonName);
+            Action action = Actions.valueOf(actionName).value;
+
+            Util.log("   -" + Actions.valueOf(actionName).name());
+
+            if (action instanceof ButtonAction) {
+                bind(button, (ButtonAction) action);
+            }
+
+           
+        }
+
+
+        
+        
        
 
         return true; //Add Variable For Sucsses Here

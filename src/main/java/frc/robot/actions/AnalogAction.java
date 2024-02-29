@@ -2,7 +2,7 @@ package frc.robot.actions;
 
 import java.util.function.*;
 
-public class AnalogAction {
+public class AnalogAction extends Action{
     Function<Float, Boolean> setF;
     Function<Float, Boolean> changeF;
 
