@@ -8,10 +8,14 @@ public enum Actions {
     AnalogAction setRightDriveSpeed = new AnalogAction((Float x) -> {return Robot.driver.setRightDrive(x);});
     ButtonAction measure = new ButtonAction(() -> {return Robot.shooter.checkValue();});*/
 
+    //Shooter Actions
     shoot (new ButtonAction(() -> {return Robot.shooter.shoot();})),
+    measure (new ButtonAction(() -> {return Robot.shooter.checkValue();})),
+
+    //Driver Actions
     setLeftDriveSpeed (new AnalogAction((Float x) -> {return Robot.driver.setLeftDrive(x);})),
-    setRightDriveSpeed (new AnalogAction((Float x) -> {return Robot.driver.setRightDrive(x);})),
-    measure (new ButtonAction(() -> {return Robot.shooter.checkValue();}));
+    setRightDriveSpeed (new AnalogAction((Float x) -> {return Robot.driver.setRightDrive(x);}));
+    
 
     public final Action value;
     Actions(Action value) {

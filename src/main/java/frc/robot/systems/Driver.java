@@ -3,36 +3,48 @@ package frc.robot.systems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import frc.robot.Util;
 
 
 public class Driver extends System{
+    /** The input speed (which is inbetween 0 and 1) is multiplied by maxSpeed.
+     * The result will not be greater than maxSpeed, for example
+     * if the input is 0.5, and maxSpeed is 0.9, the resultant speed
+     * is 0.45.
+     */
     float maxSpeed;
+    /** Motor velocities are multiplied by maxSpeed every tick. */
     float speedFalloff;
 
+    /** Velocities of motor groups */
     float vl, vr;
+    
+    /** Driving is disabled if true. */
+    boolean disabled = false;
 
-    boolean disabled = true;
-
-    //Drive Motors
+    /** All Drive Motors: */
     private final CANSparkMax motorLeft1 = new CANSparkMax(4, MotorType.kBrushed);
     private final CANSparkMax motorRight1 = new CANSparkMax(6, MotorType.kBrushed);
     private final CANSparkMax motorLeft2 = new CANSparkMax(5, MotorType.kBrushed);
     private final CANSparkMax motorRight2 = new CANSparkMax(7, MotorType.kBrushed);
 
-    //Drive Motor Groups
+    /** Drive Motor Groups */
     private final MotorControllerGroup leftMotors = new MotorControllerGroup(motorLeft1, motorLeft2);
     private final MotorControllerGroup rightMotors = new MotorControllerGroup(motorRight1, motorRight2);
 
   
     public Driver() {
         maxSpeed = 0.5f;
-        speedFalloff = 1; //0.995f;
+        speedFalloff = 0.9f;
         rightMotors.setInverted(true);
         
         vl = 0;
         vr = 0;
     }
 
+    /** This update function is inherited from the System.  It is
+     * called from Robot every periodic iteration.
+     */
     public void update() {
         if (disabled) return;
 
@@ -41,6 +53,7 @@ public class Driver extends System{
         vl *= speedFalloff;
         vr *= speedFalloff;
     }
+
     /** Drive forward/backward at a percent of max speed*/
     void straight(float speed) {
         float spd = speed*maxSpeed;
@@ -62,18 +75,16 @@ public class Driver extends System{
     }
 
     public boolean setLeftDrive (float speed) {
-        //leftMotors.set(speed*maxSpeed);
         speed = speed*maxSpeed;
-        if (speed > vl || speed < vl) {
+        if (speed > vl || -speed < vl) {
             vl = speed;
         }
         return true;
     }
 
     public boolean setRightDrive (float speed) {
-        //rightMotors.set(speed*maxSpeed);
         speed = speed*maxSpeed;
-        if (speed > vr || speed < vr) {
+        if (speed > vr || -speed < vr) {
             vr = speed;
         }
         
