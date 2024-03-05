@@ -207,6 +207,13 @@ public class Controller extends System {
             }
             return buttonMap.get(b).press();
         }
+
+        if (xbox1.getRawButton(b.value)) {
+            if (buttonMap.get(b) == null) {
+                return false;
+            }
+            return buttonMap.get(b).hold();
+        }
         return false;
     }
 

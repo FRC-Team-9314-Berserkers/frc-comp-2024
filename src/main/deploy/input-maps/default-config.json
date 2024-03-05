@@ -1,7 +1,10 @@
 {
     "Buttons": [
         {"A": "shoot"},
-        {"Left": "measure"}
+        {"Left": "measure"},
+        {"Up": "lifterUp"},
+        {"LeftStick": "quickStop"},
+        {"Down": "lifterDown"}
     ],
 
     "Analogs": [

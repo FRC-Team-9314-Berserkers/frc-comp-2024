@@ -8,10 +8,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import frc.robot.systems.Controller;
-import frc.robot.systems.Driver;
-import frc.robot.systems.Shooter;
+import frc.robot.actions.Actions;
+import frc.robot.systems.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -31,6 +29,8 @@ public class Robot extends TimedRobot {
   public static Driver driver;
   public static Shooter shooter;
   public static Controller controller;
+  public static Lifter lifter;
+  public static Loader loader;
 
   //Controllers now part of Controller system
 
@@ -45,12 +45,15 @@ public class Robot extends TimedRobot {
     driver = new Driver();
     shooter = new Shooter();
     controller = new Controller();
+    lifter = new Lifter();
+
+    //Set up actions
+    //WIP
   }
 
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
    * that you want ran during disabled, autonomous, teleoperated and test.
-   *
    * <p>This runs after the mode specific periodic functions, but before LiveWindow and
    * SmartDashboard integrated updating.
    */
@@ -99,12 +102,17 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     driver.update();
     shooter.update();
+    lifter.update();
+    loader.update();
+
     controller.update();
   }
 
   /** This function is called once when the robot is disabled. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    driver.quickStop();
+  }
 
   /** This function is called periodically when disabled. */
   @Override
@@ -117,8 +125,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {
-    //m_drive.tankDrive(1.0, 1.0);
-    //driver.setDrive((float) xbox1.getLeftY(), (float) xbox1.getRightY());
+
   }
 
   /** This function is called once when the robot is first started up. */

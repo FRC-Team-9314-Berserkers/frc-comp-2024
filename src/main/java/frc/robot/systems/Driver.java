@@ -3,6 +3,7 @@ package frc.robot.systems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Util;
 
 
@@ -32,10 +33,11 @@ public class Driver extends System{
     private final MotorControllerGroup leftMotors = new MotorControllerGroup(motorLeft1, motorLeft2);
     private final MotorControllerGroup rightMotors = new MotorControllerGroup(motorRight1, motorRight2);
 
+    
   
     public Driver() {
-        maxSpeed = 0.5f;
-        speedFalloff = 0.9f;
+        maxSpeed = 0.037f;
+        speedFalloff = 0.93f;
         rightMotors.setInverted(true);
         
         vl = 0;
@@ -48,10 +50,33 @@ public class Driver extends System{
     public void update() {
         if (disabled) return;
 
+        vl = Math.min(Math.max(vl, -1), 1);
+        vr = Math.min(Math.max(vr, -1), 1);
+
         leftMotors.set(vl);
         rightMotors.set(vr);
-        vl *= speedFalloff;
-        vr *= speedFalloff;
+
+        SmartDashboard.putNumber("Left Drive Velocity", vl);
+        SmartDashboard.putNumber("Right Drive Vel", vr);
+
+        SmartDashboard.putNumber("Difference", Math.abs(vr-vl));
+
+        if (Math.abs(vl-vr) < 0.034) {
+            float v = (vl+vr)/2;
+            vl = v;
+            vr = v;
+        }
+
+        if (Math.abs(vl-vr) > 0.1) {
+            //float v = (vl+vr)/2;
+            vl *= 0.9;
+            vr *= 0.9;
+        } else {
+            vl *= speedFalloff;
+            vr *= speedFalloff; 
+        }
+
+       
     }
 
     /** Drive forward/backward at a percent of max speed*/
@@ -75,21 +100,33 @@ public class Driver extends System{
     }
 
     public boolean setLeftDrive (float speed) {
-        speed = speed*maxSpeed;
-        if (speed > vl || -speed < vl) {
+        //speed = speed*maxSpeed;
+
+        vl += speed*maxSpeed;
+
+        /*if (Math.abs(speed) > Math.abs(vl)) {
             vl = speed;
-        }
+        }*/
         return true;
     }
 
     public boolean setRightDrive (float speed) {
-        speed = speed*maxSpeed;
-        if (speed > vr || -speed < vr) {
+        //speed = ;
+
+        vr += speed*maxSpeed;
+        
+        /*if (Math.abs(speed) > Math.abs(vr)) {
             vr = speed;
-        }
+        }*/
         
         return true;
     }
 
+    public boolean quickStop() {
+        vr *= -0.9;
+        vl *= -0.9;
+        return true;
+    }
+    //protected void 
     
 }
