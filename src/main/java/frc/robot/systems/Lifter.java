@@ -9,7 +9,7 @@ import frc.robot.Util;
 public class Lifter extends System {
     double liftSpeed = 0.2;
     
-    private CANSparkMax leftLiftMotor = new CANSparkMax(11, MotorType.kBrushless);
+    private CANSparkMax leftLiftMotor = new CANSparkMax(12, MotorType.kBrushless);
     private CANSparkMax rightLiftMotor;// = new CANSparkMax(-1,MotorType.kBrushless);
 
     public Lifter() {
@@ -23,15 +23,15 @@ public class Lifter extends System {
 
 
     public void liftArmUp () {
-     //rightLiftmortor.set() 
-     leftLiftMotor.set(0.2);
+        //rightLiftmortor.set() 
+        leftLiftMotor.set(0.1);
     }
     
     
     
     public void liftArmDown(){
         //rightLiftMotor.set(0.2);
-        leftLiftMotor.set(-0.2);
+        leftLiftMotor.set(-0.1);
     }
 
 

@@ -31,6 +31,7 @@ public class Robot extends TimedRobot {
   public static Controller controller;
   public static Lifter lifter;
   public static Loader loader;
+  private Vision vision;
 
   //Controllers now part of Controller system
 
@@ -46,9 +47,13 @@ public class Robot extends TimedRobot {
     shooter = new Shooter();
     controller = new Controller();
     lifter = new Lifter();
+    loader = new Loader();
+    vision = new Vision();
 
     //Set up actions
     //WIP
+
+    vision.start();
   }
 
   /**
@@ -104,6 +109,7 @@ public class Robot extends TimedRobot {
     shooter.update();
     lifter.update();
     loader.update();
+    vision.update();
 
     controller.update();
   }

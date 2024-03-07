@@ -12,7 +12,7 @@ public class Loader extends System {
     //Settings
     float loadSpeed = 0.6f;
 
-    Loader() {
+    public Loader() {
         super();
         //Neo Motors (Brushless)
         intakeMotor = new CANSparkMax(1, MotorType.kBrushless);

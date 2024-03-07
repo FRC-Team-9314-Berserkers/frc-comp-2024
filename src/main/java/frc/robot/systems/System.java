@@ -1,8 +1,10 @@
 package frc.robot.systems;
 
 public class System {
-    public void update() {
+    boolean disabled = false;
 
+    public void update() {
+        
     }
 
     public void test() {

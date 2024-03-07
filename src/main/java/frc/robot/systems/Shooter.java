@@ -9,10 +9,10 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 public class Shooter extends System {
     //Motors for shooter
     private final CANSparkMax motor1 = new CANSparkMax(10, MotorType.kBrushless);
-    private final CANSparkMax motor3 = new CANSparkMax(12, MotorType.kBrushless);
-    private final CANSparkMax motor4 = new CANSparkMax(13, MotorType.kBrushless);
-    private final CANSparkMax motor5 = new CANSparkMax(9, MotorType.kBrushless);
-    private final CANSparkMax motor6 = new CANSparkMax(8, MotorType.kBrushless);
+    //private final CANSparkMax motor3 = new CANSparkMax(12, MotorType.kBrushless);
+    //private final CANSparkMax motor4 = new CANSparkMax(13, MotorType.kBrushless);
+    //private final CANSparkMax motor5 = new CANSparkMax(9, MotorType.kBrushless);
+    //private final CANSparkMax motor6 = new CANSparkMax(8, MotorType.kBrushless);
 
     
 
@@ -28,7 +28,7 @@ public class Shooter extends System {
         //motor3.set(0.2);
         //motor4.set(0.2);
         //motor5.set(0.2);
-        motor6.set(0.2);
+        //motor6.set(0.2);
 
         return true;
     }
