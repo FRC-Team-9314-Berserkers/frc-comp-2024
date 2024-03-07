@@ -22,7 +22,7 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
-
+ int AutonomousTime = 50;
   //Drive Motor Controllers now in Driver system
 
   //Systems
@@ -90,10 +90,12 @@ public class Robot extends TimedRobot {
     switch (m_autoSelected) {
       case kCustomAuto:
         // Put custom auto code here
+        Util.log("One");
         break;
       case kDefaultAuto:
       default:
         // Put default auto code here
+        driver.straight();
         break;
     }
   }

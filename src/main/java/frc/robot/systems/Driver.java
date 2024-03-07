@@ -80,7 +80,7 @@ public class Driver extends System{
     }
 
     /** Drive forward/backward at a percent of max speed*/
-    void straight(float speed) {
+    public void straight(float speed) {
         float spd = speed*maxSpeed;
         leftMotors.set(spd);
         rightMotors.set(spd);
