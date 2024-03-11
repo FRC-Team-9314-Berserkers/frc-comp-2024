@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
   public static Lifter lifter;
   public static Loader loader;
   private Vision vision;
-
+  public static String bananana = "Hi You may not know this but I put this everywhere so everything Triggers it";
   //Controllers now part of Controller system
 
 
@@ -93,11 +93,15 @@ public class Robot extends TimedRobot {
         Util.log("One");
         break;
       case kDefaultAuto:
+        Util.log("Two");
+        break;
       default:
         // Put default auto code here
-        driver.straight();
+        driver.straight(0.2f);
         break;
     }
+
+
   }
 
   /** This function is called once when teleop is enabled. */
