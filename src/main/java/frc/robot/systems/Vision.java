@@ -19,7 +19,7 @@ public class Vision extends System {
 
     private int width, height;
 
-    protected UsbCamera camera;
+    protected UsbCamera back, front;
     protected AprilTagDetector tagDetector;
 
     Mat frame, greyFrame;
@@ -31,8 +31,8 @@ public class Vision extends System {
         vThread = new Thread(() -> {this.threadMain();});
         vThread.setName("Vision Thread");
 
-        width = 640;
-        height = 480;
+        width = 640/2;
+        height = 480/2;
 
         // Get the UsbCamera from CameraServer and set up
         //UsbCamera camera = CameraServer.startAutomaticCapture();
@@ -41,7 +41,10 @@ public class Vision extends System {
         //Setup April Tag Detector
         AprilTagDetector.Config apeConfig = new AprilTagDetector.Config();
         apeConfig.debug = false;
-        apeConfig.decodeSharpening = 10;
+        apeConfig.decodeSharpening = 0.1;
+        apeConfig.refineEdges = true;
+        apeConfig.quadDecimate = 2.0f;
+        apeConfig.quadSigma = 0.4f;
 
         tagDetector = new AprilTagDetector();
         tagDetector.setConfig(apeConfig);
@@ -54,14 +57,20 @@ public class Vision extends System {
     }
 
     protected void threadMain() {
+        // Get the UsbCamera from CameraServer and set up
+        UsbCamera back = CameraServer.startAutomaticCapture(0);
+        UsbCamera front = CameraServer.startAutomaticCapture(1);
+        back.setResolution(width, height);
+        front.setResolution(width, height);
+        
+        // Get a CvSink. This will capture Mats from the camera
+        cvSink = CameraServer.getVideo(front);
+        // Setup a CvSource. This will send images back to the Dashboard
+        outputStream = CameraServer.putVideo("Front Camera", width, height);
+
         //Setup Mats
         frame = new Mat();
         greyFrame = new Mat();
-        
-        // Get a CvSink. This will capture Mats from the camera
-        cvSink = CameraServer.getVideo();
-        // Setup a CvSource. This will send images back to the Dashboard
-        outputStream = CameraServer.putVideo("Detection", width, height);
 
         // This cannot be 'true'. The program will never exit if it is. This
         // lets the robot stop this thread when restarting robot code or
@@ -86,27 +95,29 @@ public class Vision extends System {
             return;
         }
 
-        //Imgproc.cvtColor(frame, greyFrame, Imgproc.COLOR_RGB2GRAY);
+        Imgproc.cvtColor(frame, greyFrame, Imgproc.COLOR_RGB2GRAY);
 
         //Detect tags and load into 'tags'
-        /*tags = tagDetector.detect(greyFrame);
-        Util.log("April Tags Detected:" + tags.length);
+        tags = tagDetector.detect(greyFrame);
+        if (tags.length > 0) {
+            //Util.log("April Tags Detected:" + tags.length);
 
-        //Loop through detected april tags
-        for (AprilTagDetection tag : tags) {
-            //Put a quad around the april tag.
-            for (int i=0;i<4;i++) {
-                var j = (i + 1) % 4;
-                var pt1 = new Point(tag.getCornerX(i),tag.getCornerY(i));
-                var pt2 = new Point(tag.getCornerX(j),tag.getCornerY(j));
-                Imgproc.line(frame, pt1, pt2, new Scalar(0, 255, 0), 2);
+            //Loop through detected april tags
+            for (AprilTagDetection tag : tags) {
+                //Put a quad around the april tag.
+                for (int i=0;i<4;i++) {
+                    var j = (i + 1) % 4;
+                    var pt1 = new Point(tag.getCornerX(i),tag.getCornerY(i));
+                    var pt2 = new Point(tag.getCornerX(j),tag.getCornerY(j));
+                    Imgproc.line(frame, pt1, pt2, new Scalar(0, 255, 0), 2);
+                }
+                
+                Util.log("April Tag Detected:" + tag.getId());
+
             }
-            
-            Util.log("April Tag Detected:" + tag.getId());
-
-        }*/
+        }
 
         // Give the output stream a new image to display
-        //outputStream.putFrame(frame);
+        outputStream.putFrame(frame);
     }
 }

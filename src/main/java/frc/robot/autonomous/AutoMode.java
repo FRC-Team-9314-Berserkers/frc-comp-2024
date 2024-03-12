@@ -16,13 +16,17 @@ public class AutoMode {
     }
 
     void update() {
-        floAT time = actionTimer.get();
+        float time = (float) actionTimer.get();
 
-        if()
+        //if() {}
     }
 
     void add() {
 
+    }
+
+    void nextAction() {
+        current.endFunction.getAsBoolean();
     }
 
 }
