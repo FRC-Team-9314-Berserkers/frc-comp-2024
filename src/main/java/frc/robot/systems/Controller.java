@@ -2,6 +2,7 @@ package frc.robot.systems;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -12,6 +13,8 @@ import com.fasterxml.jackson.databind.*;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Filesystem;
 
 import frc.robot.Util;
@@ -69,13 +72,27 @@ public class Controller extends System {
     Joystick joy1;
     
     //** HashMap for buttons bound to actions */
-
     HashMap<Button, ButtonAction> buttonMap;
     HashMap<Analog, AnalogAction> analogMap;
+
+    /** Represents drop down list on smart dashboard */
+    private final SendableChooser<String> mapNameChooser;
+
+    private String mapName;
+    private File inputMapPath = new File(Filesystem.getDeployDirectory() + "/input-maps/");
 
     public Controller() {
         buttonMap = new HashMap<Button, ButtonAction>();
         analogMap = new HashMap<Analog, AnalogAction>();
+
+        mapNameChooser = new SendableChooser<>();
+        for (File f : inputMapPath.listFiles()) {
+            Util.log(f.getName());
+            mapNameChooser.addOption(f.getName(), f.getName());
+        }
+
+        SmartDashboard.putData("Controll Map", mapNameChooser);
+        
 
         xbox1 = new XboxController(0);
         joy1 = new Joystick(1);
@@ -84,6 +101,12 @@ public class Controller extends System {
     }
     
     public void update() {
+        String current = mapNameChooser.getSelected();
+        SmartDashboard.putString("Loaded Controll Map: \n", mapName);
+        if (current != mapName) {
+            load(current);
+        }
+
         for (Button b : Button.values()) {
             checkButton(b);
         }
@@ -129,6 +152,7 @@ public class Controller extends System {
             return false;
         }
 
+        mapName = filename;
         //Util.log("Data from config file:");
         //Util.log(data);
 

@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.actions.Actions;
+import frc.robot.autonomous.AutoAction;
+import frc.robot.autonomous.AutoMode;
 import frc.robot.systems.*;
 
 /**
@@ -32,9 +34,11 @@ public class Robot extends TimedRobot {
   public static Lifter lifter;
   public static Loader loader;
   private Vision vision;
-  public static String bananana = "Hi You may not know this but I put this everywhere so everything Triggers it";
-  //Controllers now part of Controller system
 
+
+  public static String bananana = "Hi You may not know this but I put this everywhere so everything Triggers it";
+
+  AutoMode auto1;
 
   @Override
   public void robotInit() {
@@ -82,12 +86,17 @@ public class Robot extends TimedRobot {
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     Util.log("Auto selected: " + m_autoSelected);
+
+    auto1 = new AutoMode("auto1");
+
+    auto1.add(new AutoAction(() -> {Util.log("111"); return true;}));
+    auto1.add(new AutoAction(() -> {Util.log("222"); return true;}));
   }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    switch (m_autoSelected) {
+    /*switch (m_autoSelected) {
       case kCustomAuto:
         // Put custom auto code here
         Util.log("One");
@@ -97,9 +106,11 @@ public class Robot extends TimedRobot {
         break;
       default:
         // Put default auto code here
-        driver.straight(0.2f);
+        //driver.straight(0.2f);
         break;
-    }
+    }*/
+
+    auto1.update();
 
 
   }

@@ -15,8 +15,8 @@ public class Loader extends System {
     public Loader() {
         super();
         //Neo Motors (Brushless)
-        intakeMotor = new CANSparkMax(1, MotorType.kBrushless);
-        angleMotor = new CANSparkMax(0, MotorType.kBrushless);
+        //intakeMotor = new CANSparkMax(1, MotorType.kBrushless);
+        //angleMotor = new CANSparkMax(0, MotorType.kBrushless);
     }
 
     public void update() {
@@ -25,6 +25,6 @@ public class Loader extends System {
     }
 
     public void load() {
-        intakeMotor.set(loadSpeed);
+        //intakeMotor.set(loadSpeed);
     }
 }
