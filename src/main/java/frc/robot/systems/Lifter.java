@@ -7,10 +7,10 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import frc.robot.Util;
 
 public class Lifter extends System {
-    double liftSpeed = 0.2;
+    double liftSpeed = 0.5;
     
-    float topLimit = 90;
-    float bottomLimit = -90;
+    float topLimit = 20;
+    float bottomLimit = -20;
 
     private CANSparkMax leftLiftMotor = new CANSparkMax(13, MotorType.kBrushless);
     private CANSparkMax rightLiftMotor = new CANSparkMax(9,MotorType.kBrushless);
