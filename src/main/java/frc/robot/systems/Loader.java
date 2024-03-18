@@ -23,40 +23,40 @@ public class Loader extends System {
     }
 
     public void update() {
-    intakeMotor.set(0);
-    if (up == true || down == true){
-    t --;
-    }
+        intakeMotor.set(0);
+        if (up == true || down == true){
+            t --;
+        }
 
     }
 
     public void lift() {
-    t = 100; 
-    up = true;
-    while (t != 0){
-    angleMotor.set(loadSpeed);
+        t = 100; 
+        up = true;
+        while (t != 0){
+        angleMotor.set(loadSpeed);
     }
 
-    if (t == 0){
-    angleMotor.set(0);
-    }
-    up = false;
+        if (t == 0){
+            angleMotor.set(0);
+        }
+        up = false;
     }
 
     public void spin(){
-    intakeMotor.set(intakeSpeed);
+        intakeMotor.set(intakeSpeed);
     }
 
     public void drop(){
-    down = true;
-    t = 100; 
-    while (t != 0){
-    angleMotor.set(-loadSpeed);
-    }
+        down = true;
+        t = 100; 
+        while (t != 0){
+        angleMotor.set(-loadSpeed);
+        }
 
-    if (t == 0){
-    angleMotor.set(0);
-    }
-    down = false;
+        if (t == 0){
+            angleMotor.set(0);
+        }
+        down = false;
     }
 }
