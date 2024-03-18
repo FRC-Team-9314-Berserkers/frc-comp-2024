@@ -12,8 +12,8 @@ public class Lifter extends System {
     float topLimit = 90;
     float bottomLimit = -90;
 
-    private CANSparkMax leftLiftMotor = new CANSparkMax(12, MotorType.kBrushless);
-    private CANSparkMax rightLiftMotor = new CANSparkMax(-1,MotorType.kBrushless);
+    private CANSparkMax leftLiftMotor = new CANSparkMax(13, MotorType.kBrushless);
+    private CANSparkMax rightLiftMotor = new CANSparkMax(9,MotorType.kBrushless);
 
     public Lifter() {
 

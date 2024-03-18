@@ -9,6 +9,6 @@
 
     "Analogs": [
         {"LeftStickY": "setLeftDriveSpeed"},
-        {"RightStickY": "setRightDriveSpeed"}
+        {"LeftStickX": "setRightDriveSpeed"}
     ]
 }

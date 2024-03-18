@@ -102,7 +102,7 @@ public class Controller extends System {
     
     public void update() {
         String current = mapNameChooser.getSelected();
-        SmartDashboard.putString("Loaded Controll Map: \n", mapName);
+        SmartDashboard.putString("Loaded Controll Map: ", mapName);
         if (current != mapName) {
             load(current);
         }
