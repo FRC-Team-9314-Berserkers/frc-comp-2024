@@ -14,7 +14,24 @@ public enum Actions {
     
     //Lifter Actions
     lifterUp (new ButtonAction(() -> {Robot.lifter.liftArmUp(); return true;})),
-    lifterDown (new ButtonAction(() -> {Robot.lifter.liftArmDown(); return true;}));
+    lifterDown (new ButtonAction(() -> {Robot.lifter.liftArmDown(); return true;})),
+
+    //Loader Actions
+    /* QUICK GUIDE: 
+         Name:   |       Ignore this      |   What it does:        |  Also ignore!          
+    ^^^^^^^^^^^^^                          ^^^^^^^^^^^^^^^^^^^^^^^^  
+    - Make sure to use a unique name.
+    - Also "what it does" is important to change:
+         - return true (or false, it doesn't really matter (yet))
+         - Probably something like Robot.lifter.liftArmDown();
+
+    Also, is the loader in Robot.java as a Robot memeber variable?
+        (It is, I checked)
+
+    */
+    
+    loaderAction1 (new ButtonAction(() -> {/* Do something here; */ return true;})),
+    loaderAction2 (new ButtonAction(() -> {/* Do something here; */ return true;}));
 
     public final Action value;
     Actions(Action value) {
