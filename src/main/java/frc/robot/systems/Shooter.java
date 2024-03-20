@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
 
 public class Shooter extends System {
-    public final double shooterSpeed = 0.25;
+    public final double shooterSpeed = 0.6;
     public boolean active;
-
+    
     //Motors for shooter
     private final CANSparkMax shootMotor1 = new CANSparkMax(8, MotorType.kBrushless);
     private final CANSparkMax shootMotor2 = new CANSparkMax(12, MotorType.kBrushless);
