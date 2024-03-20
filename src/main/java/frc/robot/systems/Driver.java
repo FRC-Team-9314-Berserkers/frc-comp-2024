@@ -36,8 +36,8 @@ public class Driver extends System{
     
   
     public Driver() {
-        maxSpeed = 0.037f;
-        speedFalloff = 0.93f;
+        maxSpeed = 0.04f;
+        speedFalloff = 0.92f;
         rightMotors.setInverted(true);
         
         vl = 0;
@@ -53,21 +53,19 @@ public class Driver extends System{
         vl = Math.min(Math.max(vl, -1), 1);
         vr = Math.min(Math.max(vr, -1), 1);
 
-        leftMotors.set(vl);
-        rightMotors.set(vr);
-
         SmartDashboard.putNumber("Left Drive Velocity", vl);
         SmartDashboard.putNumber("Right Drive Vel", vr);
 
-        SmartDashboard.putNumber("Difference", Math.abs(vr-vl));
+        float difference = Math.abs(vr-vl);
+        SmartDashboard.putNumber("Difference", difference);
 
-        if (Math.abs(vl-vr) < 0.034) {
-            float v = (vl+vr)/2;
+        if (difference < 0.034) {
+            float v = Math.max(vl,vr);
             vl = v;
             vr = v;
         }
 
-        if (Math.abs(vl-vr) > 0.1) {
+        if (difference > 0.1) {
             //float v = (vl+vr)/2;
             vl *= 0.9;
             vr *= 0.9;
@@ -75,6 +73,9 @@ public class Driver extends System{
             vl *= speedFalloff;
             vr *= speedFalloff; 
         }
+
+        leftMotors.set(vl);
+        rightMotors.set(vr);
 
        
     }
@@ -100,8 +101,6 @@ public class Driver extends System{
     }
 
     public boolean setLeftDrive (float speed) {
-        //speed = speed*maxSpeed;
-
         vl += speed*maxSpeed;
 
         /*if (Math.abs(speed) > Math.abs(vl)) {
@@ -111,8 +110,6 @@ public class Driver extends System{
     }
 
     public boolean setRightDrive (float speed) {
-        //speed = ;
-
         vr += speed*maxSpeed;
         
         /*if (Math.abs(speed) > Math.abs(vr)) {

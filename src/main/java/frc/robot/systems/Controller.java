@@ -108,7 +108,7 @@ public class Controller extends System {
     public void update() {
         String current = mapNameChooser.getSelected();
         SmartDashboard.putString("Loaded Controll Map: ", mapName);
-        if (current != mapName) {
+        if (current != null && ! current.equals(mapName)) {
             load(current);
         }
 
