@@ -13,10 +13,11 @@ public enum Actions {
     quickStop (new ButtonAction(() -> {return Robot.driver.quickStop();})),
     
     //Lifter Actions
-    lifterUp (new ButtonAction(() -> {Robot.lifter.liftArmUp(); return true;})),
-    lifterDown (new ButtonAction(() -> {Robot.lifter.liftArmDown(); return true;})),
+    lifterUp (new ButtonAction(() -> {Robot.lifter.liftArmUp(); return true;}, () -> {Robot.lifter.stop(); return true;})),
+    lifterDown (new ButtonAction(() -> {Robot.lifter.liftArmDown(); return true;}, () -> {Robot.lifter.stop(); return true;})),
 
     //Loader Actions
+
     /* QUICK GUIDE: 
          Name:   |       Ignore this      |   What it does:        |  Also ignore!          
     ^^^^^^^^^^^^^                          ^^^^^^^^^^^^^^^^^^^^^^^^  
@@ -30,8 +31,8 @@ public enum Actions {
 
     */
     
-    loaderAction1 (new ButtonAction(() -> {/* Do something here; */ return true;})),
-    loaderAction2 (new ButtonAction(() -> {/* Do something here; */ return true;}));
+    templateAction1 (new ButtonAction(() -> {/* Do something here; */ return true;})),
+    templateAction2 (new ButtonAction(() -> {/* Do something here; */ return true;}));
 
     public final Action value;
     Actions(Action value) {

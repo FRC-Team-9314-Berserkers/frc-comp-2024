@@ -1,6 +1,7 @@
 package frc.robot.systems;
 
 import java.util.Timer;
+import java.util.TimerTask;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -15,27 +16,35 @@ public class Loader extends System {
     int t;
     boolean up = false;
     boolean down = false;
+
+    //Timers
+    Timer intakeTimer;
+
     public Loader() {
         super();
         //Neo Motors (Brushless)
-        intakeMotor = new CANSparkMax(1, MotorType.kBrushless);
-        angleMotor = new CANSparkMax(0, MotorType.kBrushless);
+        intakeMotor = new CANSparkMax(10, MotorType.kBrushless);
+        angleMotor = new CANSparkMax(11, MotorType.kBrushless);
+
+        intakeTimer = new Timer("intakeTimer");
     }
 
     public void update() {
-        intakeMotor.set(0);
+        //intakeMotor.set(0);
         if (up == true || down == true){
             t --;
         }
 
+        
+
     }
 
-    public void lift() {
+    public void raise() {
         t = 100; 
         up = true;
         while (t != 0){
-        angleMotor.set(loadSpeed);
-    }
+            angleMotor.set(loadSpeed);
+        }
 
         if (t == 0){
             angleMotor.set(0);
@@ -43,15 +52,23 @@ public class Loader extends System {
         up = false;
     }
 
-    public void spin(){
+    public void intake(){
         intakeMotor.set(intakeSpeed);
+
+        intakeTimer.schedule(new TimerTask() {
+            public void run() {
+                intakeMotor.stopMotor();
+            }
+        }, 1000);
+
+        
     }
 
-    public void drop(){
+    public void lower(){
         down = true;
         t = 100; 
         while (t != 0){
-        angleMotor.set(-loadSpeed);
+            angleMotor.set(-loadSpeed);
         }
 
         if (t == 0){

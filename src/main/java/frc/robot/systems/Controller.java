@@ -81,6 +81,11 @@ public class Controller extends System {
     private String mapName;
     private File inputMapPath = new File(Filesystem.getDeployDirectory() + "/input-maps/");
 
+    /** Used to keep track of POV */
+    int lastPOV = -1;
+    int POV = -1;
+    int releasedPOV = -1;
+
     public Controller() {
         buttonMap = new HashMap<Button, ButtonAction>();
         analogMap = new HashMap<Analog, AnalogAction>();
@@ -105,6 +110,14 @@ public class Controller extends System {
         SmartDashboard.putString("Loaded Controll Map: ", mapName);
         if (current != mapName) {
             load(current);
+        }
+
+        lastPOV = POV;
+        POV = xbox1.getPOV();
+        releasedPOV = -1;
+
+        if (POV == -1 && lastPOV != -1) {
+            releasedPOV = lastPOV;
         }
 
         for (Button b : Button.values()) {
@@ -212,24 +225,47 @@ public class Controller extends System {
         return true; //Add Variable For Sucsses Here
     }
 
+
     //Test a if a button is pressed and run corrosponding action
     protected boolean checkButton(Button b) {
         if (b.value >= 1000 && b.value < 2000) {
-            if (xbox1.getPOV() == b.value-1000) {
+            if (POV == b.value-1000) {
                 if (buttonMap.get(b) == null) {
                     return false;
                 }
-                return buttonMap.get(b).press();
+                
+                if (lastPOV == -1) {
+                    return buttonMap.get(b).press();
+                }
+
+                if (POV == lastPOV) {
+                    return buttonMap.get(b).hold();
+                }
+                return false;
             }
+
+            if (releasedPOV != -1 && b.value-1000 == releasedPOV) {
+                if (buttonMap.get(b) == null) {
+                    return false;
+                }
+                return buttonMap.get(b).release();
+            }
+
             return false;
         }
         
         if (xbox1.getRawButtonPressed(b.value)) {
-            //Util.log(b.toString() + b.value);
             if (buttonMap.get(b) == null) {
                 return false;
             }
             return buttonMap.get(b).press();
+        }
+
+        if (xbox1.getRawButtonReleased(b.value)) {
+            if (buttonMap.get(b) == null) {
+                return false;
+            }
+            return buttonMap.get(b).release();
         }
 
         if (xbox1.getRawButton(b.value)) {

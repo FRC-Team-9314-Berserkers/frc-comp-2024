@@ -112,7 +112,7 @@ public class Vision extends System {
                     Imgproc.line(frame, pt1, pt2, new Scalar(0, 255, 0), 2);
                 }
                 
-                Util.log("April Tag Detected:" + tag.getId());
+                //Util.log("April Tag Detected:" + tag.getId());
 
             }
         }
