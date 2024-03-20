@@ -17,12 +17,34 @@ public class Loader extends System {
     float intakeSpeed = 0.6f;
     float ejectSpeed = 0.3f;
 
+    float angleSpeed = 0.04f;
+
+    float maxAngleSpeed = 0.05f;
+
+    float[][] raiseSpeeds = {
+       {5.0f, 0.05f},
+       {4.0f, 0.05f},
+       {3.0f, 0.04f},
+       {2.0f, 0.02f},
+       {1.0f, 0.01f},
+       {0.0f, 0.00f}
+    };
+
+    float[][] lowerSpeeds = {
+        {5.0f, 0.05f},
+        {4.0f, 0.05f},
+        {3.0f, 0.04f},
+        {2.0f, 0.02f},
+        {1.0f, 0.01f},
+        {0.0f, 0.00f}
+     };
+
     int t;
     boolean up = false;
     boolean down = false;
 
-    float maxAngle;
-    float minAngle;
+    float maxAngle = 0;
+    float minAngle = -5;
 
     //Timers
     Timer bayTimer;
@@ -45,6 +67,18 @@ public class Loader extends System {
         if (up == true || down == true){
             t --;
         }
+
+        float position = (float) angleMotor.getEncoder().getPosition();
+        
+        //Apllied Voltage to robot
+        float v = 0.0f;
+        
+        if (v > maxAngleSpeed) {
+            v = maxAngleSpeed;
+        }
+        angleMotor.set(v);
+
+
     }
 
     public void raise() {

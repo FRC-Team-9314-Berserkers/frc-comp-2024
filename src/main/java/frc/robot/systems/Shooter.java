@@ -27,7 +27,7 @@ public class Shooter extends System {
         shootMotor2.setIdleMode(IdleMode.kCoast);
         shootMotor2.setInverted(true);
 
-        disabled = true;
+        disabled = false;
     }
 
     public void update() {

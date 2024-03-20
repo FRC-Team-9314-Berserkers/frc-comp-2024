@@ -36,8 +36,8 @@ public class Driver extends System{
     
   
     public Driver() {
-        maxSpeed = 0.04f;
-        speedFalloff = 0.92f;
+        maxSpeed = 0.06f;
+        speedFalloff = 0.89f;
         rightMotors.setInverted(true);
         
         vl = 0;
