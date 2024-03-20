@@ -6,27 +6,38 @@ import java.util.TimerTask;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import frc.robot.Util;
+
 public class Loader extends System {
-    private final CANSparkMax intakeMotor;
+    private final CANSparkMax bayMotor;
     private final CANSparkMax angleMotor;
 
     //Settings
     float loadSpeed = 0.5f;
     float intakeSpeed = 0.6f;
+    float ejectSpeed = 0.3f;
+
     int t;
     boolean up = false;
     boolean down = false;
 
+    float maxAngle;
+    float minAngle;
+
     //Timers
-    Timer intakeTimer;
+    Timer bayTimer;
+
+    //
+    long intakeTime = 1000;
+    long ejectTime = 2000;
 
     public Loader() {
         super();
         //Neo Motors (Brushless)
-        intakeMotor = new CANSparkMax(10, MotorType.kBrushless);
+        bayMotor = new CANSparkMax(10, MotorType.kBrushless);
         angleMotor = new CANSparkMax(11, MotorType.kBrushless);
 
-        intakeTimer = new Timer("intakeTimer");
+        bayTimer = new Timer("intakeTimer");
     }
 
     public void update() {
@@ -34,9 +45,6 @@ public class Loader extends System {
         if (up == true || down == true){
             t --;
         }
-
-        
-
     }
 
     public void raise() {
@@ -52,18 +60,6 @@ public class Loader extends System {
         up = false;
     }
 
-    public void intake(){
-        intakeMotor.set(intakeSpeed);
-
-        intakeTimer.schedule(new TimerTask() {
-            public void run() {
-                intakeMotor.stopMotor();
-            }
-        }, 1000);
-
-        
-    }
-
     public void lower(){
         down = true;
         t = 100; 
@@ -76,4 +72,28 @@ public class Loader extends System {
         }
         down = false;
     }
+
+    public void intake(){
+        bayMotor.set(intakeSpeed);
+
+        bayTimer.schedule(new TimerTask() {
+            public void run() {
+                bayMotor.stopMotor();
+            }
+        }, intakeTime);
+
+        Util.log("Loader: Intake Note.");
+    }
+
+	public void ejectNote() {
+        bayMotor.set(-ejectSpeed);
+
+        bayTimer.schedule(new TimerTask() {
+            public void run() {
+                bayMotor.stopMotor();
+            }
+        }, ejectTime);
+
+        Util.log("Loader: Ejecting Note.");
+	}
 }

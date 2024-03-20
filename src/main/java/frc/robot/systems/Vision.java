@@ -27,6 +27,8 @@ public class Vision extends System {
     private CvSink cvSink;
     private CvSource outputStream;
 
+    private boolean disableDetection = true;
+
     public Vision() {
         vThread = new Thread(() -> {this.threadMain();});
         vThread.setName("Vision Thread");
@@ -93,6 +95,10 @@ public class Vision extends System {
             outputStream.notifyError(cvSink.getError());
             // skip the rest of the current iteration
             return;
+        }
+
+        if (disableDetection) {
+            outputStream.putFrame(frame);
         }
 
         Imgproc.cvtColor(frame, greyFrame, Imgproc.COLOR_RGB2GRAY);

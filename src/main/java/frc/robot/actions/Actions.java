@@ -17,6 +17,10 @@ public enum Actions {
     lifterDown (new ButtonAction(() -> {Robot.lifter.liftArmDown(); return true;}, () -> {Robot.lifter.stop(); return true;})),
 
     //Loader Actions
+    loaderRaise (new ButtonAction(() -> {Robot.loader.raise(); return true;})),
+    loaderLower (new ButtonAction(() -> {Robot.loader.lower(); return true;})),
+    loaderIntake (new ButtonAction(() -> {Robot.loader.intake(); return true;})),
+    
 
     /* QUICK GUIDE: 
          Name:   |       Ignore this      |   What it does:        |  Also ignore!          
