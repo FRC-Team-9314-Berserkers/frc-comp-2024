@@ -1,5 +1,7 @@
 package frc.robot.systems;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -11,7 +13,6 @@ import frc.robot.Util;
 public class Loader extends System {
     private final CANSparkMax bayMotor;
     private final CANSparkMax angleMotor;
-
     //Settings
     float loadSpeed = 0.5f;
     float intakeSpeed = 0.6f;
@@ -21,26 +22,36 @@ public class Loader extends System {
 
     float maxAngleSpeed = 0.05f;
 
-    float[][] raiseSpeeds = {
-       {5.0f, 0.05f},
-       {4.0f, 0.05f},
-       {3.0f, 0.04f},
-       {2.0f, 0.02f},
-       {1.0f, 0.01f},
-       {0.0f, 0.00f}
+    
+    float[][] raiseSpeeds1 = {
+        //First is position, second is velocity
+        {-6.0f, 0.05f},
+        {-5.0f, 0.05f},
+        {-4.0f, 0.05f},
+        {-3.0f, 0.04f},
+        {-2.0f, 0.02f},
+        {-1.0f, 0.01f},
+        {0.0f, 0.00f},
+        {1.0f, -0.01f}
     };
+    ArrayList<float[]> raiseSpeeds = new ArrayList<float[]>();
+    
 
-    float[][] lowerSpeeds = {
-        {5.0f, 0.05f},
-        {4.0f, 0.05f},
-        {3.0f, 0.04f},
-        {2.0f, 0.02f},
-        {1.0f, 0.01f},
-        {0.0f, 0.00f}
-     };
+    float[][] lowerSpeeds1 = {
+        //Incorrect at the moment (WIP)
+        {-0.5f, -0.05f},
+        {-0.0f, -0.05f},
+        {-1.0f, -0.05f},
+        {-2.0f, -0.04f},
+        {-3.0f, -0.02f},
+        {-4.0f, -0.01f},
+        {-5.0f, -0.00f},
+        {-6.0f, 0.01f}
+    };
+    ArrayList<float[]> lowerSpeeds = new ArrayList<float[]>();
 
     int t;
-    boolean up = false;
+    public boolean up = false;
     boolean down = false;
 
     float maxAngle = 0;
@@ -53,6 +64,17 @@ public class Loader extends System {
     long intakeTime = 1000;
     long ejectTime = 2000;
 
+    enum AngleActions {
+        raising,
+        lowering,
+        stopped
+    }
+    
+    AngleActions angleAction;
+
+    int i = 0;
+    boolean loud = false;
+
     public Loader() {
         super();
         //Neo Motors (Brushless)
@@ -60,51 +82,76 @@ public class Loader extends System {
         angleMotor = new CANSparkMax(11, MotorType.kBrushless);
 
         bayTimer = new Timer("intakeTimer");
+
+        raiseSpeeds.addAll(Arrays.asList(raiseSpeeds1));
+        lowerSpeeds.addAll(Arrays.asList(lowerSpeeds1));
+
+        angleAction = AngleActions.stopped;
     }
 
     public void update() {
-        //intakeMotor.set(0);
-        if (up == true || down == true){
-            t --;
-        }
+        i++;
+        if (i > 100) {loud = true; i = 0;}
 
+        //Get Position
         float position = (float) angleMotor.getEncoder().getPosition();
         
-        //Apllied Voltage to robot
+        louge("");
+        louge("Position: " + position);
+    
+        //Apllied Voltage to angle motor
         float v = 0.0f;
-        
-        if (v > maxAngleSpeed) {
-            v = maxAngleSpeed;
-        }
-        angleMotor.set(v);
 
+        //Upper and lower voltages
+        float lowerV = 0.0f;
+        float upperV = 0.0f;
+
+        if (angleAction == AngleActions.stopped) {
+            angleMotor.stopMotor();
+        } else {
+            //Closest array values
+            float[] closestAbove = {0, 0};
+            float[] closestBelow = {0, 0};
+            //Difference from actual position
+            float diff = 0.5f;
+
+            if (angleAction == AngleActions.raising) {
+                closestAbove = Util.getClosestAbove(raiseSpeeds, position);
+                closestBelow = Util.getClosestBelow(raiseSpeeds, position);
+
+                diff = position - closestBelow[0];
+            } else if(angleAction == AngleActions.lowering) {
+                closestAbove = Util.getClosestAbove(lowerSpeeds, position);
+                closestBelow = Util.getClosestBelow(lowerSpeeds, position);
+
+                diff = position - closestBelow[0];
+            }
+
+            louge("+[" + closestAbove[0] + ", " + closestAbove[1] + "]" + "   -" + "[" + closestBelow[0] + ", " + closestBelow[1] + "]");
+            lowerV = closestBelow[1];
+            upperV = closestAbove[1];
+
+            louge("Upper / Lower Veocities: " + lowerV + " - " + upperV + ";  Difference" + diff);
+            v = Util.lerp(lowerV, upperV, diff);
+
+            if (v > maxAngleSpeed || v < -maxAngleSpeed) {
+                v = 0;
+            }
+
+            louge("Loader Angle Velocity: " + v);
+            angleMotor.set(v);
+        }
+        
 
     }
 
     public void raise() {
-        t = 100; 
-        up = true;
-        while (t != 0){
-            angleMotor.set(loadSpeed);
-        }
-
-        if (t == 0){
-            angleMotor.set(0);
-        }
-        up = false;
+        Util.log("Raising Loader.");
+        angleAction = AngleActions.raising;
     }
 
     public void lower(){
-        down = true;
-        t = 100; 
-        while (t != 0){
-            angleMotor.set(-loadSpeed);
-        }
-
-        if (t == 0){
-            angleMotor.set(0);
-        }
-        down = false;
+        angleAction = AngleActions.lowering;
     }
 
     public void intake(){
@@ -130,4 +177,10 @@ public class Loader extends System {
 
         Util.log("Loader: Ejecting Note.");
 	}
+
+    void louge(String message) {
+        if (loud) {
+            Util.log(message);
+        }
+    }
 }

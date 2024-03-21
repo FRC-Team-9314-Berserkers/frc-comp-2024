@@ -1,6 +1,7 @@
 {
     "Buttons": [
         {"A": "shoot"},
+        {"X": "shooterReverse"},
         {"Left": "measure"},
         {"Up": "lifterUp"},
         {"LeftStick": "quickStop"},

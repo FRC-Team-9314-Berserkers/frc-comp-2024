@@ -146,6 +146,9 @@ public class Controller extends System {
 
     /** Load a json control map into the controller. */
     boolean load (String filename){
+        buttonMap.clear();
+        analogMap.clear();
+
         Util.log("Loading control map '" + filename + "'");
         String path = Filesystem.getDeployDirectory() + "/input-maps/" + filename;
         String data;

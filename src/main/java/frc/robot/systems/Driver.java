@@ -19,9 +19,8 @@ public class Driver extends System{
 
     /** Velocities of motor groups */
     float vl, vr;
-    
-    /** Driving is disabled if true. */
-    boolean disabled = false;
+
+    boolean quickStopped = false;
 
     /** All Drive Motors: */
     private final CANSparkMax motorLeft1 = new CANSparkMax(4, MotorType.kBrushed);
@@ -33,12 +32,18 @@ public class Driver extends System{
     private final MotorControllerGroup leftMotors = new MotorControllerGroup(motorLeft1, motorLeft2);
     private final MotorControllerGroup rightMotors = new MotorControllerGroup(motorRight1, motorRight2);
 
+
     
   
     public Driver() {
-        maxSpeed = 0.06f;
+        /** Driving is disabled if true. */
+        disabled = false;
+
+        maxSpeed = 0.09f;
         speedFalloff = 0.89f;
         rightMotors.setInverted(true);
+
+        SmartDashboard.putNumber("Drive Speed: ", maxSpeed);
         
         vl = 0;
         vr = 0;
@@ -49,6 +54,15 @@ public class Driver extends System{
      */
     public void update() {
         if (disabled) return;
+
+        maxSpeed = (float) SmartDashboard.getNumber("Drive Speed: ", maxSpeed);
+        if (maxSpeed > 0.15) {
+            maxSpeed = 0.6f;
+        }
+        if (maxSpeed < 0) {
+            maxSpeed = 0.1f;
+        }
+        SmartDashboard.putNumber("Drive Speed: ", maxSpeed);
 
         vl = Math.min(Math.max(vl, -1), 1);
         vr = Math.min(Math.max(vr, -1), 1);
@@ -101,6 +115,7 @@ public class Driver extends System{
     }
 
     public boolean setLeftDrive (float speed) {
+        if (quickStopped) return false;
         vl += speed*maxSpeed;
 
         /*if (Math.abs(speed) > Math.abs(vl)) {
@@ -110,6 +125,7 @@ public class Driver extends System{
     }
 
     public boolean setRightDrive (float speed) {
+        if (quickStopped) return false;
         vr += speed*maxSpeed;
         
         /*if (Math.abs(speed) > Math.abs(vr)) {
@@ -122,8 +138,14 @@ public class Driver extends System{
     public boolean quickStop() {
         vr *= -0.9;
         vl *= -0.9;
+
+        quickStopped = true;
         return true;
     }
-    //protected void 
+
+    public boolean quickStopRelease() {
+        quickStopped = false;
+        return true;
+    }
     
 }

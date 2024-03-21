@@ -1,0 +1,12 @@
+{
+    "Buttons": [
+        {"Left": "measure"},
+        {"Up": "loaderRaise"},
+        {"Down": "loaderLower"}
+        
+    ],
+
+    "Analogs": [
+        
+    ]
+}

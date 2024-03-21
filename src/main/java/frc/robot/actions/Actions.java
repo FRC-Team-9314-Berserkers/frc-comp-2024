@@ -4,13 +4,15 @@ import frc.robot.Robot;
 
 public enum Actions {
     //Shooter Actions
-    shoot (new ButtonAction(() -> {return Robot.shooter.shoot();})),
+    shoot (new ButtonAction(() -> {Robot.shooter.start(); return true;}, () -> {Robot.shooter.stop(); return true;})),
+    toggleShoot (new ButtonAction(() -> {Robot.shooter.toggle(); return true;})),
+    shooterReverse (new ButtonAction(() -> {Robot.shooter.reverse(); return true;}, () -> {Robot.shooter.stop(); return true;})),
     measure (new ButtonAction(() -> {return Robot.shooter.checkValue();})),
 
     //Driver Actions
     setLeftDriveSpeed (new AnalogAction((Float x) -> {return Robot.driver.setLeftDrive(x);})),
     setRightDriveSpeed (new AnalogAction((Float x) -> {return Robot.driver.setRightDrive(x);})),
-    quickStop (new ButtonAction(() -> {return Robot.driver.quickStop();})),
+    quickStop (new ButtonAction(() -> {return Robot.driver.quickStop();}, () -> {return Robot.driver.quickStopRelease();})),
     
     //Lifter Actions
     lifterUp (new ButtonAction(() -> {Robot.lifter.liftArmUp(); return true;}, () -> {Robot.lifter.stop(); return true;})),

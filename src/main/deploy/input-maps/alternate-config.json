@@ -4,10 +4,14 @@
         {"Left": "measure"},
         {"Up": "lifterUp"},
         {"LeftStick": "quickStop"},
-        {"Down": "lifterDown"}
+        {"Down": "lifterDown"},
+        {"RightBumper": "loaderRaise"},
+        {"LeftBumper": "loaderLower"}
     ],
 
     "Analogs": [
+        {"LeftTrigger": ""},
+        {"RightTrigger": "shoot"},
         {"LeftStickY": "setLeftDriveSpeed"},
         {"LeftStickX": "setRightDriveSpeed"}
     ]

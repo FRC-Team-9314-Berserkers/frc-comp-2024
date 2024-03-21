@@ -11,8 +11,14 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
 
 public class Shooter extends System {
-    public final double shooterSpeed = 0.6;
-    public boolean active;
+    private enum actions {
+        active,
+        stop,
+        reverse
+    }
+    public final double shooterSpeed = 0.8;
+    public final double reverseSpeed = -0.4;
+    public actions active;
     
     //Motors for shooter
     private final CANSparkMax shootMotor1 = new CANSparkMax(8, MotorType.kBrushless);
@@ -21,7 +27,7 @@ public class Shooter extends System {
     private final MotorControllerGroup shootMotors = new MotorControllerGroup(shootMotor1, shootMotor2);
     public Shooter() {
         super();
-        active = false;
+        active = actions.stop;
 
         shootMotor1.setIdleMode(IdleMode.kCoast);
         shootMotor2.setIdleMode(IdleMode.kCoast);
@@ -31,20 +37,43 @@ public class Shooter extends System {
     }
 
     public void update() {
-        if (active && ! disabled) {
-            shootMotors.set(shooterSpeed);
+        if (active != actions.stop && ! disabled) {
+            if (active == actions.active) {
+                shootMotors.set(shooterSpeed);
+            }
+            if (active == actions.reverse) {
+                shootMotors.set(reverseSpeed);
+            }
+            
+        } else {
+            shootMotors.stopMotor();
         }
         
     }
     
     public void start() {
-        active = true;
+        active = actions.active;
+    }
+
+    public void stop() {
+        active = actions.stop;
+    }
+
+    public void reverse() {
+        active = actions.reverse;
+    }
+
+    public void toggle() {
+        if (active != actions.active) {
+            active = actions.active;
+        } else {
+            active = actions.stop;
+        }
     }
 
     public boolean shoot() {
         //Shoot code
         Util.log("Shooter: shooting note");
-        //
         //Robot.loader.ejectNote();
         return true;
     }
@@ -54,6 +83,4 @@ public class Shooter extends System {
         Util.log("Shooter Position: " + shootMotor1.getEncoder().getPosition());
         return true;
     }
-
-
 }
