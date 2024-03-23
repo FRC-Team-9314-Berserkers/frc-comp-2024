@@ -17,7 +17,7 @@ public class Shooter extends System {
         reverse
     }
     public final double shooterSpeed = 0.8;
-    public final double reverseSpeed = -0.4;
+    public final double reverseSpeed = -0.24;
     public actions active;
     
     //Motors for shooter
@@ -74,7 +74,9 @@ public class Shooter extends System {
     public boolean shoot() {
         //Shoot code
         Util.log("Shooter: shooting note");
-        //Robot.loader.ejectNote();
+        Robot.loader.ejectNote();
+        active = actions.active;
+        
         return true;
     }
 

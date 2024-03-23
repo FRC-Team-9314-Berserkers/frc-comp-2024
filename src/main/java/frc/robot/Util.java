@@ -13,7 +13,7 @@ public class Util {
     }
 
     public static float[] getClosestAbove(ArrayList<float[]> list, float actual) {
-        float[] closestAbove = list.get(0);
+        float[] closestAbove = {10.0f, 0.0f};
       
         //Find the closest position value in array that is greater than actual position.
         for (float[] pair : list) {
@@ -23,6 +23,7 @@ public class Util {
                 }
             }
         }
+        
         
         return closestAbove;
     }

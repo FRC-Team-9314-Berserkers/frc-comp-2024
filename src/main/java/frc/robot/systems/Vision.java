@@ -33,8 +33,8 @@ public class Vision extends System {
         vThread = new Thread(() -> {this.threadMain();});
         vThread.setName("Vision Thread");
 
-        width = 640/2;
-        height = 480/2;
+        width = (int) Math.floor(640/2.5f);
+        height = (int) Math.floor(480/2.5f);
 
         // Get the UsbCamera from CameraServer and set up
         //UsbCamera camera = CameraServer.startAutomaticCapture();
@@ -63,7 +63,7 @@ public class Vision extends System {
         UsbCamera back = CameraServer.startAutomaticCapture(0);
         UsbCamera front = CameraServer.startAutomaticCapture(1);
         back.setResolution(width, height);
-        front.setResolution(width, height);
+        front.setResolution(width/3, height/3);
         
         // Get a CvSink. This will capture Mats from the camera
         cvSink = CameraServer.getVideo(front);

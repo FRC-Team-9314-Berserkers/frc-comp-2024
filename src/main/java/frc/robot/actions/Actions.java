@@ -22,6 +22,7 @@ public enum Actions {
     loaderRaise (new ButtonAction(() -> {Robot.loader.raise(); return true;})),
     loaderLower (new ButtonAction(() -> {Robot.loader.lower(); return true;})),
     loaderIntake (new ButtonAction(() -> {Robot.loader.intake(); return true;})),
+    loaderEject (new ButtonAction(() -> {Robot.loader.ejectNote(); return true;})),
     
 
     /* QUICK GUIDE: 

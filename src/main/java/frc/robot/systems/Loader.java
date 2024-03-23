@@ -14,39 +14,50 @@ public class Loader extends System {
     private final CANSparkMax bayMotor;
     private final CANSparkMax angleMotor;
     //Settings
-    float loadSpeed = 0.5f;
-    float intakeSpeed = 0.6f;
+    float loadSpeed = 0.35f;
+    float intakeSpeed = 0.25f;
     float ejectSpeed = 0.3f;
 
     float angleSpeed = 0.04f;
 
-    float maxAngleSpeed = 0.05f;
+    float maxAngleSpeed = 0.2f;
 
     
     float[][] raiseSpeeds1 = {
         //First is position, second is velocity
-        {-6.0f, 0.05f},
-        {-5.0f, 0.05f},
-        {-4.0f, 0.05f},
-        {-3.0f, 0.04f},
-        {-2.0f, 0.02f},
-        {-1.0f, 0.01f},
-        {0.0f, 0.00f},
-        {1.0f, -0.01f}
+        //Calibrated
+        {-16.0f, 0.0f},
+        {-15.0f, 0.12f},
+        {-12.0f, 0.14f},
+        {-6.0f,  0.16f},    //Start
+        {-5.0f,  0.16f},
+        {-4.0f,  0.12f},
+        {-3.0f,  0.06f},
+        {-2.0f, -0.01f},
+        {-1.0f, -0.01f},
+        {-0.5f, -0.00f},
+        {0.1f, -0.02f},     //End
+        {1.0f,  -0.04f},
+        {4.0f,  -0.08f},
+        {14.0f,  -0.08f},
+        {15.0f,  -0.00f}
     };
     ArrayList<float[]> raiseSpeeds = new ArrayList<float[]>();
     
 
     float[][] lowerSpeeds1 = {
-        //Incorrect at the moment (WIP)
-        {-0.5f, -0.05f},
-        {-0.0f, -0.05f},
-        {-1.0f, -0.05f},
-        {-2.0f, -0.04f},
-        {-3.0f, -0.02f},
-        {-4.0f, -0.01f},
-        {-5.0f, -0.00f},
-        {-6.0f, 0.01f}
+        //Calibrated somewhat
+        {0.5f, -0.14f},
+        {-0.0f, -0.15f},    //Start
+        {-1.0f, -0.13f},
+        {-2.4f, -0.94f},
+        {-3.0f, -0.06f},
+        {-4.0f,  0.025f},
+        {-5.0f,  0.03f},
+        {-6.0f,  0.01f},    //End
+        {-7.0f,  0.01f},
+        {-8.0f,  0.02f},
+        {-10.0f,  0.02f}
     };
     ArrayList<float[]> lowerSpeeds = new ArrayList<float[]>();
 
@@ -61,8 +72,8 @@ public class Loader extends System {
     Timer bayTimer;
 
     //
-    long intakeTime = 1000;
-    long ejectTime = 2000;
+    long intakeTime = 2500;
+    long ejectTime = 3000;
 
     enum AngleActions {
         raising,
@@ -87,10 +98,13 @@ public class Loader extends System {
         lowerSpeeds.addAll(Arrays.asList(lowerSpeeds1));
 
         angleAction = AngleActions.stopped;
+
+        disabled = false;
     }
 
     public void update() {
         i++;
+        loud = false;
         if (i > 100) {loud = true; i = 0;}
 
         //Get Position
@@ -139,7 +153,7 @@ public class Loader extends System {
             }
 
             louge("Loader Angle Velocity: " + v);
-            angleMotor.set(v);
+            if (! disabled) angleMotor.set(v);
         }
         
 
@@ -151,11 +165,12 @@ public class Loader extends System {
     }
 
     public void lower(){
+        Util.log("Lowering Loader.");
         angleAction = AngleActions.lowering;
     }
 
     public void intake(){
-        bayMotor.set(intakeSpeed);
+        if (! disabled) bayMotor.set(-intakeSpeed);
 
         bayTimer.schedule(new TimerTask() {
             public void run() {
@@ -167,7 +182,7 @@ public class Loader extends System {
     }
 
 	public void ejectNote() {
-        bayMotor.set(-ejectSpeed);
+        if (! disabled) bayMotor.set(ejectSpeed);
 
         bayTimer.schedule(new TimerTask() {
             public void run() {

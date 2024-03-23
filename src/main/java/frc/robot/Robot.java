@@ -24,7 +24,8 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
- int AutonomousTime = 50;
+ 
+  int AutonomousTime = 50;
   //Drive Motor Controllers now in Driver system
 
   //Systems
@@ -39,6 +40,7 @@ public class Robot extends TimedRobot {
   public static String bananana = "Hi You may not know this but I put this everywhere so everything Triggers it";
 
   AutoMode auto1;
+  private AutoMode autoPrime;
 
   @Override
   public void robotInit() {
@@ -83,14 +85,25 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    Util.log("Autonomous started.");
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
-    Util.log("Auto selected: " + m_autoSelected);
+    //Util.log("Auto selected: " + m_autoSelected);
 
     auto1 = new AutoMode("auto1");
-
     auto1.add(new AutoAction(() -> {Util.log("111"); return true;}));
     auto1.add(new AutoAction(() -> {Util.log("222"); return true;}));
+
+    autoPrime = new AutoMode("Auto Drive Forward");
+    autoPrime.add(new AutoAction(4, ()->{return true;}, () -> {Robot.driver.straight(-0.65f);return true;}));
+    autoPrime.add(new AutoAction(0.2f, () -> {Robot.driver.straight(0.0f);return true;}));
+
+    autoPrime.add(new AutoAction(0.5f, ()->{Robot.shooter.shoot(); return true;}));
+    autoPrime.add(new AutoAction(1, () -> {Robot.driver.straight(0.0f);return true;}));
+
+    autoPrime.add(new AutoAction(1, ()->{return true;}, () -> {Robot.driver.straight(-0.6f);return true;}));
+    autoPrime.add(new AutoAction(2, () -> {Robot.driver.straight(0.0f);return true;}));
+    autoPrime.start();
   }
 
   /** This function is called periodically during autonomous. */
@@ -110,40 +123,43 @@ public class Robot extends TimedRobot {
         break;
     }*/
 
-    auto1.update();
-
-
-  }
-
-  /** This function is called once when teleop is enabled. */
-  @Override
-  public void teleopInit() {
-    //shooter.start();
-  }
-
-  /** This function is called periodically during operator control. */
-  @Override
-  public void teleopPeriodic() {
-    /*try {
-      //Thread.sleep(500);
-    } catch (InterruptedException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }*/
+    autoPrime.update();
 
     driver.update();
     shooter.update();
     lifter.update();
     loader.update();
     vision.update();
+  }
 
+
+  @Override
+  public void teleopInit() {
+    Util.log("Teleop started.");
+    //shooter.start();
+  }
+
+
+  @Override
+  public void teleopPeriodic() {
     controller.update();
+
+    driver.update();
+    shooter.update();
+    lifter.update();
+    loader.update();
+    vision.update();
   }
 
   /** This function is called once when the robot is disabled. */
   @Override
   public void disabledInit() {
-    driver.quickStop();
+    Util.log("Robot Disabled.");
+    lifter.stop();
+    shooter.stop();
+    //driver.quickStop();
+
+    Util.log(bananana);
   }
 
   /** This function is called periodically when disabled. */

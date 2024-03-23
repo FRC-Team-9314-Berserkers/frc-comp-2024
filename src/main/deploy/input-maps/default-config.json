@@ -1,11 +1,15 @@
 {
     "Buttons": [
-        {"A": "shoot"},
+        {"A": "toggleShoot"},
         {"X": "shooterReverse"},
         {"Left": "measure"},
         {"Up": "lifterUp"},
         {"LeftStick": "quickStop"},
-        {"Down": "lifterDown"}
+        {"Down": "lifterDown"},
+        {"RightBumper": "loaderRaise"},
+        {"LeftBumper": "loaderLower"},
+        {"B": "loaderIntake"},
+        {"Y": "loaderEject"}
     ],
 
     "Analogs": [
