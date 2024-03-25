@@ -95,14 +95,9 @@ public class Robot extends TimedRobot {
     auto1.add(new AutoAction(() -> {Util.log("222"); return true;}));
 
     autoPrime = new AutoMode("Auto Drive Forward");
-    autoPrime.add(new AutoAction(4, ()->{return true;}, () -> {Robot.driver.straight(-0.65f);return true;}));
+    autoPrime.add(new AutoAction(1.8f, ()->{return true;}, () -> {Robot.driver.straight(-0.2f);return true;}));
     autoPrime.add(new AutoAction(0.2f, () -> {Robot.driver.straight(0.0f);return true;}));
 
-    autoPrime.add(new AutoAction(0.5f, ()->{Robot.shooter.shoot(); return true;}));
-    autoPrime.add(new AutoAction(1, () -> {Robot.driver.straight(0.0f);return true;}));
-
-    autoPrime.add(new AutoAction(1, ()->{return true;}, () -> {Robot.driver.straight(-0.6f);return true;}));
-    autoPrime.add(new AutoAction(2, () -> {Robot.driver.straight(0.0f);return true;}));
     autoPrime.start();
   }
 

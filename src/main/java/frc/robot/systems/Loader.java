@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.Action;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -32,9 +34,9 @@ public class Loader extends System {
         {-6.0f,  0.16f},    //Start
         {-5.0f,  0.16f},
         {-4.0f,  0.12f},
-        {-3.0f,  0.06f},
+        {-3.0f,  0.08f},
         {-2.0f, -0.01f},
-        {-1.0f, -0.01f},
+        {-1.0f, -0.02f},
         {-0.5f, -0.00f},
         {0.1f, -0.02f},     //End
         {1.0f,  -0.04f},
@@ -50,7 +52,7 @@ public class Loader extends System {
         {0.5f, -0.14f},
         {-0.0f, -0.15f},    //Start
         {-1.0f, -0.13f},
-        {-2.4f, -0.94f},
+        {-2.4f, -0.14f},
         {-3.0f, -0.06f},
         {-4.0f,  0.025f},
         {-5.0f,  0.03f},
@@ -72,12 +74,14 @@ public class Loader extends System {
     Timer bayTimer;
 
     //
-    long intakeTime = 2500;
+    long intakeTime = 4000;
     long ejectTime = 3000;
 
     enum AngleActions {
         raising,
+        raised,
         lowering,
+        lowered,
         stopped
     }
     
@@ -162,6 +166,8 @@ public class Loader extends System {
     public void raise() {
         Util.log("Raising Loader.");
         angleAction = AngleActions.raising;
+        bayMotor.stopMotor();
+
     }
 
     public void lower(){
@@ -170,15 +176,20 @@ public class Loader extends System {
     }
 
     public void intake(){
-        if (! disabled) bayMotor.set(-intakeSpeed);
+        if (angleAction == AngleActions.raising) {return;}
 
-        bayTimer.schedule(new TimerTask() {
-            public void run() {
-                bayMotor.stopMotor();
-            }
-        }, intakeTime);
+        if (! disabled) {
+            bayMotor.set(-intakeSpeed);
 
-        Util.log("Loader: Intake Note.");
+            /* bayTimer.schedule(new TimerTask() {
+                public void run() {
+                    bayMotor.stopMotor();
+                }
+            }, intakeTime);
+            */
+
+            Util.log("Loader: Intake Note.");
+        }
     }
 
 	public void ejectNote() {
@@ -192,6 +203,11 @@ public class Loader extends System {
 
         Util.log("Loader: Ejecting Note.");
 	}
+
+    public void stopBay() {
+        bayMotor.stopMotor();
+         Util.log("Loader: Stopped Loader Bay.");
+    }
 
     void louge(String message) {
         if (loud) {

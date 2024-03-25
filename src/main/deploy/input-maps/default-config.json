@@ -8,12 +8,16 @@
         {"Down": "lifterDown"},
         {"RightBumper": "loaderRaise"},
         {"LeftBumper": "loaderLower"},
+        
         {"B": "loaderIntake"},
         {"Y": "loaderEject"}
     ],
 
     "Analogs": [
         {"LeftStickY": "setLeftDriveSpeed"},
-        {"RightStickY": "setRightDriveSpeed"}
+        {"RightStickY": "setRightDriveSpeed"},
+
+        {"LeftTrigger": "loaderIntakeAnalog"},
+        {"RightTrigger": "loaderEjectAnalog"}
     ]
 }

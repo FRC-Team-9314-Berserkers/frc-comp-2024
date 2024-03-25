@@ -42,7 +42,7 @@ public class Driver extends System{
         /** Driving is disabled if true. */
         disabled = false;
 
-        maxSpeed = 0.23f;
+        maxSpeed = 0.25f;
         speedFalloff = 0.89f;
         rightMotors.setInverted(true);
         

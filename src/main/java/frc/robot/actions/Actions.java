@@ -21,8 +21,10 @@ public enum Actions {
     //Loader Actions
     loaderRaise (new ButtonAction(() -> {Robot.loader.raise(); return true;})),
     loaderLower (new ButtonAction(() -> {Robot.loader.lower(); return true;})),
-    loaderIntake (new ButtonAction(() -> {Robot.loader.intake(); return true;})),
+    loaderIntake (new ButtonAction(() -> {Robot.loader.intake(); return true;}, () -> {Robot.loader.stopBay(); return true;})),
     loaderEject (new ButtonAction(() -> {Robot.loader.ejectNote(); return true;})),
+    loaderIntakeAnalog (new AnalogAction((Float x) -> {if (x>0.6) {Robot.loader.intake(); return true;} else if (x>0.2f && x<0.6f) {Robot.loader.stopBay(); return false;} return false;})),
+    loaderEjectAnalog (new AnalogAction((Float x) -> {if (x>0.5) Robot.loader.ejectNote(); return true;})),
     
 
     /* QUICK GUIDE: 

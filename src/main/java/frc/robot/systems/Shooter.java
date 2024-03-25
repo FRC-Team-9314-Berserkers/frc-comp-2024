@@ -16,7 +16,7 @@ public class Shooter extends System {
         stop,
         reverse
     }
-    public final double shooterSpeed = 0.8;
+    public final double shooterSpeed = 0.9;
     public final double reverseSpeed = -0.24;
     public actions active;
     
