@@ -2,12 +2,14 @@
     "Buttons": [
         {"A": "toggleShoot"},
         {"X": "shooterReverse"},
-        {"Left": "measure"},
+        
         {"Up": "lifterUp"},
         {"LeftStick": "quickStop"},
         {"Down": "lifterDown"},
         {"RightBumper": "loaderRaise"},
         {"LeftBumper": "loaderLower"},
+        {"Left": "cameraLeft"},
+        {"Right": "cameraRight"},
         
         {"B": "loaderIntake"},
         {"Y": "loaderEject"}

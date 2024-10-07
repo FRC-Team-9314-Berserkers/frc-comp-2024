@@ -26,6 +26,9 @@ public enum Actions {
     loaderIntakeAnalog (new AnalogAction((Float x) -> {if (x>0.6) {Robot.loader.intake(); return true;} else if (x>0.2f && x<0.6f) {Robot.loader.stopBay(); return false;} return false;})),
     loaderEjectAnalog (new AnalogAction((Float x) -> {if (x>0.5) Robot.loader.ejectNote(); return true;})),
     
+    //Camera Actions
+    cameraLeft (new ButtonAction(() -> {Robot.vision.backCameraMove(-1); return true;})),
+    cameraRight (new ButtonAction(() -> {Robot.vision.backCameraMove(1); return true;})),
 
     /* QUICK GUIDE: 
          Name:   |       Ignore this      |   What it does:        |  Also ignore!          

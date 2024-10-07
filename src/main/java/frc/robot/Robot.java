@@ -34,7 +34,7 @@ public class Robot extends TimedRobot {
   public static Controller controller;
   public static Lifter lifter;
   public static Loader loader;
-  private Vision vision;
+  public static Vision vision;  //
 
 
   public static String bananana = "Hi You may not know this but I put this everywhere so everything Triggers it";

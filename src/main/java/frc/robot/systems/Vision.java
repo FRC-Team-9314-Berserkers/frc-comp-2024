@@ -13,6 +13,9 @@ import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.UsbCamera;
 import frc.robot.Util;
 
+//Camera Servo Mount
+import edu.wpi.first.wpilibj.Servo;
+
 
 public class Vision extends System {
     protected Thread vThread;
@@ -28,6 +31,9 @@ public class Vision extends System {
     private CvSource outputStream;
 
     private boolean disableDetection = true;
+
+    private Servo backMount;
+    private double backMountPos;
 
     public Vision() {
         vThread = new Thread(() -> {this.threadMain();});
@@ -51,6 +57,9 @@ public class Vision extends System {
         tagDetector = new AprilTagDetector();
         tagDetector.setConfig(apeConfig);
         tagDetector.addFamily("tag16h5");
+
+        //Initialize camera mount servos
+        backMount = new Servo(9);
     }
 
     public void start() {
@@ -127,5 +136,23 @@ public class Vision extends System {
 
         // Give the output stream a new image to display
         outputStream.putFrame(frame);
+    }
+
+    public void backCameraMove(int dir) {
+        if (dir > 0) {
+            backMountPos += 0.1;
+        } else {
+            backMountPos -= 0.1;
+        }
+
+        if (backMountPos >= 1) {
+            backMountPos = 0.99;
+        }
+        
+        if (backMountPos <= 0) {
+            backMountPos = 0.01;
+        }
+
+        backMount.set(backMountPos);
     }
 }
