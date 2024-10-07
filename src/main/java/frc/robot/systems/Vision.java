@@ -59,7 +59,8 @@ public class Vision extends System {
         tagDetector.addFamily("tag16h5");
 
         //Initialize camera mount servos
-        backMount = new Servo(9);
+        backMount = new Servo(8);
+
     }
 
     public void start() {
@@ -139,6 +140,7 @@ public class Vision extends System {
     }
 
     public void backCameraMove(int dir) {
+        
         if (dir > 0) {
             backMountPos += 0.1;
         } else {
@@ -153,6 +155,7 @@ public class Vision extends System {
             backMountPos = 0.01;
         }
 
-        backMount.set(backMountPos);
+        backMount.setAngle(45);
+        
     }
 }
