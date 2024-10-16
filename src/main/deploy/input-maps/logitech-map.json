@@ -1,0 +1,22 @@
+{
+    "Buttons": [
+        {"A": "shoot"},
+        {"B": "shooterReverse"},
+        
+        {"Up": "lifterUp"},
+        {"LeftStick": "quickStop"},
+        {"Down": "lifterDown"},
+        {"RightBumper": "loaderRaise"},
+        {"LeftBumper": "loaderLower"},
+        {"Left": "cameraLeft"},
+        {"Right": "cameraRight"},
+        
+        {"X": "loaderIntake"},
+        {"Y": "loaderEject"}
+    ],
+
+    "Analogs": [
+        {"LeftStickY": "setLeftDriveSpeed"},
+        {"RightTrigger": "setRightDriveSpeed"}
+    ]
+}

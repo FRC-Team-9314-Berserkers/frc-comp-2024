@@ -102,7 +102,7 @@ public class Controller extends System {
         xbox1 = new XboxController(0);
         joy1 = new Joystick(1);
 
-        load("default-config.json");
+        load("logitech-map.json");
     }
     
     public void update() {
