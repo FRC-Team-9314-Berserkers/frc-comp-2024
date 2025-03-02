@@ -1,5 +1,5 @@
 package frc.robot.actions;
 
-public class Action {
+public class Action { // Create template for actions.
     
 }

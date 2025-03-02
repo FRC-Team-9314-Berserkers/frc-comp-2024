@@ -1,14 +1,14 @@
 package frc.robot;
 
-import java.util.ArrayList;
+import java.util.ArrayList; // Include ArrayList files
 
 public class Util {
-    public static void log(String message) {
+    public static void log(String message) { // Faster way to print data to the console.
         System.out.println(message);
         
     }
 
-    public static float lerp(float a, float b, float f) {
+    public static float lerp(float a, float b, float f) { // Linear interpolation function (Allows for smooth transitions between two values)
         return (float) (a * (1.0 - f)) + (b * f);
     }
 

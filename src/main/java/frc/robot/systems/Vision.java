@@ -1,65 +1,65 @@
 package frc.robot.systems;
 
-import org.opencv.core.Mat;
-import org.opencv.core.Point;
-import org.opencv.core.Scalar;
-import org.opencv.imgproc.Imgproc;
+import org.opencv.core.Mat; // Stores image data
+import org.opencv.core.Point; // Represents a point in 2D space (usually image)
+import org.opencv.core.Scalar; // 4-element vector used to store color data
+import org.opencv.imgproc.Imgproc; // Image processing methods
 
-import edu.wpi.first.apriltag.AprilTagDetection;
-import edu.wpi.first.apriltag.AprilTagDetector;
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.CvSink;
-import edu.wpi.first.cscore.CvSource;
-import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.apriltag.AprilTagDetection; // Import AprilTagDetection class
+import edu.wpi.first.apriltag.AprilTagDetector; // Import AprilTagDetector class
+import edu.wpi.first.cameraserver.CameraServer; // Import CameraServer class
+import edu.wpi.first.cscore.CvSink; // Handles input frames from camera
+import edu.wpi.first.cscore.CvSource; // Handles output frames to dashboard
+import edu.wpi.first.cscore.UsbCamera; // Represents a USB camera and allows for settings such as resolution or framerate.
 import frc.robot.Util;
 
 //Camera Servo Mount
 import edu.wpi.first.wpilibj.Servo;
 
 
-public class Vision extends System {
-    protected Thread vThread;
+public class Vision extends System { // Create vision class
+    protected Thread vThread; // Create a thread for vision
 
-    private int width, height;
+    private int width, height; // Camera width and height variables
 
-    protected UsbCamera back, front;
-    protected AprilTagDetector tagDetector;
+    protected UsbCamera back, front; // Create USB cameras for back and front
+    protected AprilTagDetector tagDetector; // Create AprilTagDetector object
 
-    Mat frame, greyFrame;
+    Mat frame, greyFrame; // Create Mats for frame and greyFrame
 
-    private CvSink cvSink;
-    private CvSource outputStream;
+    private CvSink cvSink; // Create CvSink object
+    private CvSource outputStream; // Create CvSource object which is stream output
 
-    private boolean disableDetection = true;
+    private boolean disableDetection = true; // Disable detection by default
 
-    private Servo backMount;
-    private double backMountPos;
+    private Servo backMount; // Create a servo for the back mount
+    private double backMountPos; // Create a double for the back mount position
 
     public Vision() {
-        vThread = new Thread(() -> {this.threadMain();});
-        vThread.setName("Vision Thread");
+        vThread = new Thread(() -> {this.threadMain();}); // Create new vision thread
+        vThread.setName("Vision Thread"); // Set the name of the thread
 
-        width = (int) Math.floor(640/2f);
-        height = (int) Math.floor(480/2f);
+        width = (int) Math.floor(640/2f); // Set the width of the camera to (your number)/2
+        height = (int) Math.floor(480/2f); // Set the height of the camera to (your number)/2
 
         // Get the UsbCamera from CameraServer and set up
         //UsbCamera camera = CameraServer.startAutomaticCapture();
         //camera.setResolution(width, height);
 
         //Setup April Tag Detector
-        AprilTagDetector.Config apeConfig = new AprilTagDetector.Config();
-        apeConfig.debug = false;
-        apeConfig.decodeSharpening = 0.1;
-        apeConfig.refineEdges = true;
-        apeConfig.quadDecimate = 2.0f;
-        apeConfig.quadSigma = 0.4f;
+        AprilTagDetector.Config apeConfig = new AprilTagDetector.Config(); // Create a new AprilTagDetector config
+        apeConfig.debug = false; // Set debug to false
+        apeConfig.decodeSharpening = 0.1; // Set decodeSharpening to 0.1
+        apeConfig.refineEdges = true; // Set refineEdges to true
+        apeConfig.quadDecimate = 2.0f; // Set quadDecimate to 2.0f
+        apeConfig.quadSigma = 0.4f; // Set quadSigma to 0.4f
 
-        tagDetector = new AprilTagDetector();
-        tagDetector.setConfig(apeConfig);
-        tagDetector.addFamily("tag16h5");
+        tagDetector = new AprilTagDetector(); // Create a new AprilTagDetector object
+        tagDetector.setConfig(apeConfig); // Set the config of the AprilTagDetector object
+        tagDetector.addFamily("tag16h5"); // Add a family to the AprilTagDetector object
 
         //Initialize camera mount servos
-        backMount = new Servo(8);
+        //backMount = new Servo(8);
 
     }
 

@@ -5,13 +5,13 @@
 package frc.robot;
 
 
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.actions.Actions;
-import frc.robot.autonomous.AutoAction;
-import frc.robot.autonomous.AutoMode;
-import frc.robot.systems.*;
+import edu.wpi.first.wpilibj.TimedRobot; // Include FRC TimedRobot files.
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser; // Include files for sending and receving data.
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard; // Iclude files for smart dashboard
+import frc.robot.actions.Actions; //Include all other project files
+import frc.robot.autonomous.AutoAction; //Include all other project files
+import frc.robot.autonomous.AutoMode; //Include all other project files
+import frc.robot.systems.*; //Include all other project files
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -20,46 +20,43 @@ import frc.robot.systems.*;
  * project.
  */
 public class Robot extends TimedRobot {
-  private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "My Auto";
-  private String m_autoSelected;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  private static final String kDefaultAuto = "Default"; // No current purpose
+  private static final String kCustomAuto = "My Auto"; // No current purpose
+  private String m_autoSelected; // No current purpose
+  private final SendableChooser<String> m_chooser = new SendableChooser<>(); // No current purpose
  
   int AutonomousTime = 50;
   //Drive Motor Controllers now in Driver system
 
   //Systems
-  public static Driver driver;
-  public static Shooter shooter;
-  public static Controller controller;
-  public static Lifter lifter;
-  public static Loader loader;
-  public static Vision vision;  //
+  public static Driver driver; // Initalize the variable for the  driver system
+  public static Shooter shooter; // Initalize the variable for the shooter system
+  public static Controller controller; // Initalize the variable for the controller system
+  public static Lifter lifter; // Initalize the variable for the lifter system
+  public static Loader loader; // Initalize the variable for the loader system
+  public static Vision vision; // Initalize the variable for the vision system
 
-
-  public static String bananana = "Hi You may not know this but I put this everywhere so everything Triggers it";
-
-  AutoMode auto1;
-  private AutoMode autoPrime;
+  AutoMode auto1; // Autonomous mode for testing
+  private AutoMode autoPrime; // Autonomous mode for driving forward
 
   @Override
-  public void robotInit() {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
+  public void robotInit() { // This function is called once when the robot is first started up.
+    m_chooser.setDefaultOption("Default Auto", kDefaultAuto); // No current purpose
+    m_chooser.addOption("My Auto", kCustomAuto); // No Current Purpose
+    SmartDashboard.putData("Auto choices", m_chooser); // No Current Purpose
 
     //Setup Systems
-    driver = new Driver();
-    shooter = new Shooter();
-    controller = new Controller();
-    lifter = new Lifter();
-    loader = new Loader();
-    vision = new Vision();
+    driver = new Driver(); // Initialize the driver system
+    shooter = new Shooter(); // Initialize the shooter system
+    controller = new Controller(); // Initialize the controller system
+    lifter = new Lifter(); // Initialize the lifter system
+    loader = new Loader(); // Initialize the loader system
+    vision = new Vision(); // Initialize the vision system
 
     //Set up actions
     //WIP
 
-    vision.start();
+    vision.start(); // Start camera feed.
   }
 
   /**
@@ -90,15 +87,15 @@ public class Robot extends TimedRobot {
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     //Util.log("Auto selected: " + m_autoSelected);
 
-    auto1 = new AutoMode("auto1");
-    auto1.add(new AutoAction(() -> {Util.log("111"); return true;}));
-    auto1.add(new AutoAction(() -> {Util.log("222"); return true;}));
+    auto1 = new AutoMode("auto1"); // Create a new autonomous mode
+    auto1.add(new AutoAction(() -> {Util.log("111"); return true;})); // Print "111" to the console
+    auto1.add(new AutoAction(() -> {Util.log("222"); return true;})); // Print "222" to the console
 
-    autoPrime = new AutoMode("Auto Drive Forward");
-    autoPrime.add(new AutoAction(1.8f, ()->{return true;}, () -> {Robot.driver.straight(-0.2f);return true;}));
-    autoPrime.add(new AutoAction(0.2f, () -> {Robot.driver.straight(0.0f);return true;}));
+    autoPrime = new AutoMode("Auto Drive Forward"); // Create a new autonomous mode
+    autoPrime.add(new AutoAction(1.8f, ()->{return true;}, () -> {Robot.driver.straight(-0.2f);return true;})); // Makes the robot drive backward for 1.8 seconds at 0.2 speed
+    autoPrime.add(new AutoAction(0.2f, () -> {Robot.driver.straight(0.0f);return true;})); // Makes the robot stop driving. Runs for 0.2 seconds.
 
-    autoPrime.start();
+    autoPrime.start(); // Initialize the autonomous mode
   }
 
   /** This function is called periodically during autonomous. */
@@ -118,43 +115,41 @@ public class Robot extends TimedRobot {
         break;
     }*/
 
-    autoPrime.update();
+    autoPrime.update(); // Update the autonomous mode
 
-    driver.update();
-    shooter.update();
-    lifter.update();
-    loader.update();
-    vision.update();
+    driver.update(); // Update the driver system
+    shooter.update(); // Update the shooter system
+    lifter.update(); // Update the lifter system
+    loader.update(); // Update the loader system
+    vision.update(); // Update the vision system
   }
 
 
   @Override
   public void teleopInit() {
-    Util.log("Teleop started.");
+    Util.log("Teleop started."); // Print "Teleop started." to the console
     //shooter.start();
   }
 
 
   @Override
   public void teleopPeriodic() {
-    controller.update();
+    controller.update(); // Update the controller system
 
-    driver.update();
-    shooter.update();
-    lifter.update();
-    loader.update();
-    vision.update();
+    driver.update(); // Update the driver system
+    shooter.update(); // Update the shooter system
+    lifter.update(); // Update the lifter system
+    loader.update(); // Update the loader system
+    vision.update(); // Update the vision system
   }
 
   /** This function is called once when the robot is disabled. */
   @Override
   public void disabledInit() {
     Util.log("Robot Disabled.");
-    lifter.stop();
-    shooter.stop();
+    lifter.stop(); // Stop the lifter system
+    shooter.stop(); // Stop the shooter system
     //driver.quickStop();
-
-    Util.log(bananana);
   }
 
   /** This function is called periodically when disabled. */
